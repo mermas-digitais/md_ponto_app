@@ -2,6 +2,8 @@
 
 Bem-vindo(a) ao repositório do aplicativo Mermãs Digitais Ponto App! Este é um aplicativo desenvolvido em Flutter/Dart para gerenciar e realizar check-ins em tarefas agendadas.
 
+## [Protótipo do app](https://www.figma.com/file/KsWw7V1n3bvUawXjGXwgiS/Ponto-app---Merm%C3%A3s-Digitais?type=design&mode=design&t=vBv0fmRUMe6OTwtJ-0)
+
 ## Funcionalidades
 
 - Visualizar lista de tarefas agendadas
