@@ -25,8 +25,10 @@ git clone https://github.com/vnschneider/md_ponto_app.git
 ```
 flutter pub get
 ```
+3. Crie um arquivo .env na raiz do projeto e adicione as variáveis de ambiente listadas [aqui](https://github.com/mermas-digitais/md_ponto_app/issues/1)
 
-3. Inicie o aplicativo:
+
+4. Inicie o aplicativo:
 
 ```
 flutter run
@@ -34,7 +36,7 @@ flutter run
 
 ## Instale o app diretamente no seu smartphone android
 
-1. Faça o download do apk mais recente na sessão de releases do repositório:]
+1. Faça o download do apk mais recente na sessão de releases do repositório:
    
    LINK DA RELEASE
    
