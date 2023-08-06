@@ -1,16 +1,75 @@
-# md_ponto_app
+# Mermãs Digitais Ponto App
 
-A new Flutter project.
+Bem-vindo(a) ao repositório do aplicativo Mermãs Digitais Ponto App! Este é um aplicativo desenvolvido em Flutter/Dart para gerenciar e realizar check-ins em tarefas agendadas.
 
-## Getting Started
+## Funcionalidades
 
-This project is a starting point for a Flutter application.
+- Visualizar lista de tarefas agendadas
+- Realizar check-in em uma tarefa
+- Visualizar detalhes de uma tarefa
+- Filtrar tarefas por nome, grupo e status
+- Cadastrar novo usuário
+- Listar todos os usuários
+- Filtrar usuários por grupo
 
-A few resources to get you started if this is your first Flutter project:
+## Instalação e Execução
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Clone o repositório:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+git clone https://github.com/vnschneider/md_ponto_app.git
+```
+
+2. Instale as dependências:
+
+```
+flutter pub get
+```
+
+3. Inicie o aplicativo:
+
+```
+flutter run
+```
+
+## Instale o app diretamente no seu smartphone android
+
+1. Faça o download do apk mais recente na sessão de releases do repositório:]
+   
+   LINK DA RELEASE
+   
+2. Instale o apk e inicie o aplicativo.
+
+## Uso
+
+O aplicativo possui uma interface simples e intuitiva. Ao abrir o aplicativo, você será direcionado para a tela principal, onde poderá visualizar a lista de tarefas agendadas.
+
+Para realizar o check-in em uma tarefa, basta clicar na tarefa desejada na lista e selecionar a opção de check-in. O aplicativo utilizará a API do Google Maps para verificar se você está próximo ao local da tarefa.
+
+Para cadastrar um novo usuário, vá para a tela de cadastro de usuário e preencha os campos necessários.
+
+Você também pode visualizar a lista de todos os usuários cadastrados e filtrá-los por grupo, usando os filtros disponíveis na tela de usuários.
+
+## Tecnologias Utilizadas
+
+O aplicativo Mermãs Digitais Ponto App foi desenvolvido utilizando as seguintes tecnologias:
+
+- Flutter: para o desenvolvimento da interface do aplicativo
+- Dart: para a programação do aplicativo
+- Google Maps API: para verificar a localização do usuário e do local da tarefa
+- API do Mermãs Digitais Ponto App: para obter as informações das tarefas e dos usuários
+
+## Contribuição
+
+Contribuições são bem-vindas! Se você encontrou algum problema, ou deseja adicionar novas funcionalidades, sinta-se à vontade para abrir uma issue ou enviar um pull request.
+
+## Licença
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## Contato
+
+Para mais informações ou dúvidas, entre em contato:
+
+- E-mail: [mermasdigitaisifma@gmail.com](mailto:contato@mermasdigitais.com)
+- Site: [https://mermasdigitais.com](https://mermas-digitais.vercel.app/)
