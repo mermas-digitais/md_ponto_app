@@ -165,9 +165,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         tasksInactive.addAll(_controller.tasksInactive);
                       },
                       child: CustomScrollView(
-                        clipBehavior: Clip.none,
-                        keyboardDismissBehavior:
-                            ScrollViewKeyboardDismissBehavior.onDrag,
+                        //clipBehavior: Clip.none,
+                        // keyboardDismissBehavior:
+                        //     ScrollViewKeyboardDismissBehavior.onDrag,
                         physics: const AlwaysScrollableScrollPhysics(),
                         slivers: <Widget>[
                           SliverFillRemaining(
@@ -318,9 +318,27 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           IconTextButton(
                             context: context,
                             icon: Iconsax.note_favorite,
-                            text: "Adicionar aula",
+                            text: "Adicionar atividade",
                             onPressed: () {
-                                                          },
+                              showModalBottomSheet(
+                                //isScrollControlled: true,
+                                //when keyboard is open
+                                enableDrag: true,
+
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  ),
+                                ),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.background,
+                                showDragHandle: true,
+                                context: context,
+                                builder: (context) => AddNewTaskBottomSheet(
+                                  addTask: () {},
+                                ),
+                              );
+                            },
                           ).variant1(),
                         ],
                       ),
@@ -383,8 +401,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 const SizedBox(height: 6.0),
                 SizedBox(
                   height: expanded.value
-                      ? MediaQuery.of(context).size.height / 1.28
-                      : MediaQuery.of(context).size.height * 0.43,
+                      ? MediaQuery.of(context).size.height / 1.3
+                      : MediaQuery.of(context).size.height * 0.40,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Obx(
