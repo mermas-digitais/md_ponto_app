@@ -19,13 +19,16 @@ class _ManangePageState extends State<ManangePage> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
         ),
-        child: const SizedBox(
+
+        //child is a listview with users informations
+        child: Container(
+          color: Theme.of(context).colorScheme.primary,
           height: 200,
           width: 200,
         ),
