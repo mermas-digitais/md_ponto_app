@@ -2,11 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:md_ponto_app/src/data/repositories/models/user_model.dart';
 import 'package:md_ponto_app/src/models/bottom_sheet.dart';
 import 'package:md_ponto_app/src/models/circle_avatar.dart';
-import 'package:md_ponto_app/src/models/frequence_bottom_sheet.dart';
 import 'package:md_ponto_app/src/models/icon_text_button.dart';
 import 'package:md_ponto_app/src/models/task_models.dart';
+import 'package:md_ponto_app/src/components/users_dialog.dart';
 import 'package:md_ponto_app/src/ui/home_page_controller.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../data/repositories/md_ponto_app_repository.dart';
@@ -34,6 +35,59 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final List tasksInactive;
   ValueNotifier expanded = ValueNotifier(false);
   String uid = "ACFsy9WA74c81V8pT4iBUF9hjDh2";
+
+  List<UserModel> mockUsers = [
+    UserModel(
+      uid: "user123",
+      firstName: "João",
+      lastName: "Silva",
+      group: "A",
+      userType: "regular",
+      email: "joao@example.com",
+      frequence: 0.85,
+      photo: 1,
+    ),
+    UserModel(
+      uid: "user456",
+      firstName: "Maria",
+      lastName: "Santos",
+      group: "B",
+      userType: "admin",
+      email: "maria@example.com",
+      frequence: 0.92,
+      photo: 2,
+    ),
+    UserModel(
+      uid: "user789",
+      firstName: "Pedro",
+      lastName: "Ferreira",
+      group: "A",
+      userType: "regular",
+      email: "pedro@example.com",
+      frequence: 0.78,
+      photo: 3,
+    ),
+    UserModel(
+      uid: "user789",
+      firstName: "Pedro",
+      lastName: "Ferreira",
+      group: "A",
+      userType: "regular",
+      email: "pedro@example.com",
+      frequence: 0.78,
+      photo: 5,
+    ),
+    UserModel(
+      uid: "user789",
+      firstName: "Pedro",
+      lastName: "Ferreira",
+      group: "A",
+      userType: "regular",
+      email: "pedro@example.com",
+      frequence: 0.78,
+      photo: 4,
+    ),
+  ];
 
   @override
   void initState() {
@@ -430,15 +484,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     final task = tasksInactive[index];
                                     return InkWell(
                                       onTap: () {
-                                        CustomBottomSheet(
-                                                content: FrequenceBottomSheet(
-                                                  title: task.name,
-                                                  displayStartDate:
-                                                      task.displayStartDate,
-                                                  taskLocation: task.location,
-                                                ),
-                                                context: context)
-                                            .bottomSheet();
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => UsersDialog(
+                                                  users: mockUsers,
+                                                ));
                                       },
                                       child: TaskModels(
                                               context: context,

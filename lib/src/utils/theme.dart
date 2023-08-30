@@ -66,8 +66,6 @@ ThemeData lightTheme() {
       ),
     ),
 
-    
-
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(const Size(14, 14)),
@@ -110,6 +108,11 @@ ThemeData lightTheme() {
         fontSize: 12,
         fontWeight: FontWeight.w300,
         color: const Color(0xCC343A40),
+      ),
+      headlineLarge: GoogleFonts.poppins(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: const Color(0xCC535353),
       ),
     ),
   );
