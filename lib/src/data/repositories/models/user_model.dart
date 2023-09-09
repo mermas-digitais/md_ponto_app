@@ -5,10 +5,10 @@ class UserModel {
   final String uid;
   final String firstName;
   final String lastName;
-  final String group;
-  final String userType;
-  final String email;
-  final num frequence;
+  final String? group;
+  final String? userType;
+  final String? email;
+  final num? frequence;
   final int? photo;
 
   UserModel({
@@ -16,9 +16,9 @@ class UserModel {
     required this.firstName,
     required this.lastName,
     required this.group,
-    required this.userType,
-    required this.email,
-    required this.frequence,
+    this.userType,
+    this.email,
+    this.frequence,
     this.photo,
   });
 

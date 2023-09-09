@@ -51,6 +51,34 @@ class PontoAppRepository {
     }
   }
 
+  //findUsersTask
+  Future<List> getUsersTask(List<dynamic> uids) async {
+    //get api_url from .env
+    final List<UserModel> userData = [];
+
+    for (final id in uids) {
+      final result = await dio.get('${dotenv.env['API_URL']}/findUser/$id');
+
+      if (result.statusCode == 200) {
+        result.data.forEach((item) => {
+              userData.add(
+                UserModel(
+                  uid: item['uid'],
+                  firstName: item['firstName'],
+                  lastName: item['lastName'],
+                  group: item['group'],
+                  photo: int.parse(item['profilePhoto']),
+                ),
+              ),
+            });
+      } else {
+        throw Exception('Failed to load user');
+      }
+    }
+
+    return userData.toList();
+  }
+
   //getAllUserPhotosById
   Future<List> getAllUserPhotosById(List uids) async {
     //para cada uid em uids, chamar a api e retornar a lista de fotos

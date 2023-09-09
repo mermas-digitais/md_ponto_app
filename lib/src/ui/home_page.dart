@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:md_ponto_app/src/components/user_registration_form.dart';
-import 'package:md_ponto_app/src/data/repositories/models/user_model.dart';
-import 'package:md_ponto_app/src/mocks/users.moks.dart';
-import 'package:md_ponto_app/src/models/bottom_sheet.dart';
 import 'package:md_ponto_app/src/models/circle_avatar.dart';
 import 'package:md_ponto_app/src/models/icon_text_button.dart';
 import 'package:md_ponto_app/src/models/task_models.dart';
@@ -37,8 +34,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final List tasksInactive;
   ValueNotifier expanded = ValueNotifier(false);
   String uid = "ACFsy9WA74c81V8pT4iBUF9hjDh2";
-
-  List<UserModel> mockUsers = UsersMocks.mockUsers;
 
   @override
   void initState() {
@@ -442,8 +437,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         showDialog(
                                             context: context,
                                             builder: (context) => UsersDialog(
-                                                  users: mockUsers,
-                                                ));
+                                                usersIds: task.users));
                                       },
                                       child: TaskModels(
                                               context: context,

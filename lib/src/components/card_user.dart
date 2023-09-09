@@ -28,7 +28,7 @@ class CardUser extends StatelessWidget {
                   children: [
                     Text(user.firstName,
                         style: Theme.of(context).textTheme.bodyLarge),
-                    Text(user.userType,
+                    Text(user.group ?? '',
                         style: Theme.of(context).textTheme.bodyMedium),
                     Text(
                       'ID: ${user.uid}',

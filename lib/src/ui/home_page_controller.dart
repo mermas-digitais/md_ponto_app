@@ -10,6 +10,9 @@ class HomeController extends GetxController {
   final List<UserModel> _userData = <UserModel>[].obs;
   List<UserModel> get userData => _userData;
 
+  final List<UserModel> _usersTask = <UserModel>[].obs;
+  List<UserModel> get usersTask => _usersTask;
+
   final List<TaskModel> _tasksActive = <TaskModel>[].obs;
   List<TaskModel> get tasksActive => _tasksActive;
 
@@ -18,6 +21,9 @@ class HomeController extends GetxController {
 
   final RxBool _userIsLoading = false.obs;
   RxBool get userIsLoading => _userIsLoading;
+
+  final RxBool _usersTaskIsLoading = false.obs;
+  RxBool get usersTaskIsLoading => _usersTaskIsLoading;
 
   final RxBool _taskIsLoading = false.obs;
   RxBool get taskIsLoading => _taskIsLoading;
@@ -31,6 +37,15 @@ class HomeController extends GetxController {
     _userData.addAll(response as List<UserModel>);
 
     _userIsLoading.value = false;
+  }
+
+  getUsersTask({required List<dynamic> uid}) async {
+    _usersTaskIsLoading.value = true;
+
+    final response = await repository.getUsersTask(uid);
+    usersTask.addAll(response as List<UserModel>);
+
+    _usersTaskIsLoading.value = false;
   }
 
   //getActiveTasks
