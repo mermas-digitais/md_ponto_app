@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:md_ponto_app/src/components/button.dart';
 
 class CustomDialog extends StatefulWidget {
   final String title;
+  final String? confirmText;
+  final void Function()? confirmFunction;
   final Widget content;
+  final bool buttons;
 
   const CustomDialog({
     super.key,
     required this.title,
     required this.content,
+    this.confirmText,
+    this.confirmFunction,
+    required this.buttons,
   });
 
   @override
@@ -45,8 +52,6 @@ class _CustomDialogState extends State<CustomDialog>
 
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
-
     return Center(
       child: SlideTransition(
         position: _offsetAnimation,
@@ -57,29 +62,44 @@ class _CustomDialogState extends State<CustomDialog>
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          content: SizedBox(
-            width: deviceWidth,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Text(
-                    widget.title,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Text(
+                  widget.title,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
-                Divider(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .surfaceVariant
-                      .withOpacity(0.6),
-                  thickness: 1,
-                ),
-                widget.content,
-              ],
-            ),
+              ),
+              Divider(
+                color: Theme.of(context)
+                    .colorScheme
+                    .surfaceVariant
+                    .withOpacity(0.6),
+                thickness: 1,
+              ),
+              const SizedBox(height: 12),
+              widget.content,
+              const SizedBox(height: 38),
+              widget.buttons
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomButton(
+                          context: context,
+                        ).inactive(
+                            label: "Cancelar",
+                            onPressed: Navigator.of(context).pop),
+                        const SizedBox(width: 20),
+                        CustomButton(context: context).active(
+                            label: widget.confirmText ?? "",
+                            onPressed: widget.confirmFunction),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+            ],
           ),
         ),
       ),

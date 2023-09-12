@@ -35,6 +35,7 @@ class _UsersDialogState extends State<UsersDialog>
     double deviceHeight = MediaQuery.of(context).size.height / 2;
 
     return CustomDialog(
+      buttons: false,
       title: 'Monitores presentes',
       content: Obx(
         () => _controller.usersTaskIsLoading.value

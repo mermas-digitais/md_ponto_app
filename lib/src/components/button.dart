@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class CustomButton {
   final BuildContext context;
 
-  CustomButton(this.context);
+  CustomButton({required this.context});
 
-  active(label, onPressed) {
+  active({required String label, required void Function()? onPressed}) {
     return TextButton(
       onPressed: onPressed,
       child: Text(label, style: Theme.of(context).textTheme.titleMedium),
     );
   }
 
-  inactive() {
+  inactive({required String label, required void Function()? onPressed}) {
     return TextButton(
       style: Theme.of(context).textButtonTheme.style?.copyWith(
           backgroundColor: MaterialStateProperty.all<Color>(
