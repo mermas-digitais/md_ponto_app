@@ -2,14 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../components/componentes.dart';
 import 'package:md_ponto_app/src/ui/old_components/user_registration_form.dart';
-import 'package:md_ponto_app/src/ui/old_components/circle_avatar.dart';
 import 'package:md_ponto_app/src/ui/old_components/icon_text_button.dart';
 import 'package:md_ponto_app/src/ui/old_components/task_models.dart';
 import 'package:md_ponto_app/src/ui/old_components/users_dialog.dart';
-import 'package:md_ponto_app/src/controllers/home/home_controller.dart';
+import '../../../controllers/controllers.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../data/repositories/md_ponto_app_repository.dart';
+import '../../old_components/bottom_sheet.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -80,84 +81,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   child: Scaffold(
                     //not scroll when keyboard is open
                     resizeToAvoidBottomInset: false,
-                    appBar: PreferredSize(
-                      preferredSize: const Size.fromHeight(90.0),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            right: 20.0, left: 20.0, bottom: 10.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            //context / radius / avatar (0 to 9)
-                            InkWell(
-                              customBorder: const CircleBorder(),
-                              overlayColor: MaterialStatePropertyAll(
-                                  Theme.of(context).colorScheme.tertiary),
-                              child: ProfileCircleAvatar(
-                                      context: context,
-                                      radius: 30,
-                                      image: userData[0].photo)
-                                  .normal(),
-                              onTap: () {},
-                            ),
-
-                            const SizedBox(width: 8.0),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Olá, ${userData[0].firstName} ",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
-                                    ),
-                                    Text(
-                                        userData[0].group == 'voluntario'
-                                            ? 'Monitor voluntário'
-                                            : 'Monitor bolsista',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium),
-                                  ],
-                                ),
-                                // const SizedBox(height: 2.0),
-                                Text(userData[0].email,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall
-                                        ?.copyWith(
-                                            overflow: TextOverflow.ellipsis,
-                                            fontSize: 12,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .background
-                                                .withOpacity(0.8))),
-                              ],
-                            ),
-
-                            const Spacer(),
-                            IconButton(
-                              icon: const Icon(Iconsax.user_search),
-                              onPressed: () {},
-                            ),
-                            const SizedBox(width: 8.0),
-                            IconButton(
-                              style: Theme.of(context).iconButtonTheme.style,
-                              icon: const Icon(
-                                Iconsax.logout_1,
-                              ),
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                      ),
+                    appBar: CustomAppBar.withProfileInfo(
+                      userPhoto: userData[0].photo,
+                      userfirstName: userData[0].firstName,
+                      userEmail: userData[0].email,
+                      userGroup: userData[0].group,
+                      context: context,
                     ),
                     body: RefreshIndicator(
                       onRefresh: () async {
@@ -324,30 +253,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             context: context,
                             icon: Iconsax.note_favorite,
                             text: "Adicionar atividade",
-                            onPressed: () {
-                              // showModalBottomSheet(
-                              //   //isScrollControlled: true,
-                              //   //when keyboard is open
-                              //   enableDrag: true,
-
-                              //   shape: const RoundedRectangleBorder(
-                              //     borderRadius: BorderRadius.vertical(
-                              //       top: Radius.circular(20),
-                              //     ),
-                              //   ),
-                              //   backgroundColor:
-                              //       Theme.of(context).colorScheme.background,
-                              //   showDragHandle: true,
-                              //   context: context,
-                              //   builder: (context) => AddNewTaskBottomSheet(
-                              //     addTask: () {},
-                              //   ),
-                              // );
-                              showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      const UserRegistrationForm());
-                            },
+                            onPressed: () {},
                           ).variant1(),
                         ],
                       ),
