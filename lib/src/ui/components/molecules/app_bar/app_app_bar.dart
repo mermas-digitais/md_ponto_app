@@ -29,14 +29,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }) {
     return CustomAppBar._(
       key: key,
-      title: title,
       appBarHeight: appBarHeight,
       child: AppBar(
         toolbarHeight: appBarHeight ?? 90.0,
         centerTitle: true,
         title: Text(
           title,
-          style: Theme.of(context).textTheme.titleLarge,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 22),
         ),
         leadingWidth: 60,
         leading: IconButton(
