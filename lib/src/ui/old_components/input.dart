@@ -7,15 +7,17 @@ class Input extends StatelessWidget {
   final double? height;
   final double? width;
   final TextInputType keyboardType;
+  final bool? autoFocus;
 
   const Input({
     super.key,
     required this.label,
     required this.onChanged,
+    required this.keyboardType,
     this.height,
     this.width,
     this.validator,
-    required this.keyboardType,
+    this.autoFocus,
   });
 
   @override
@@ -24,7 +26,7 @@ class Input extends StatelessWidget {
       width: width ?? MediaQuery.of(context).size.width,
       child: TextFormField(
         keyboardType: keyboardType,
-        autofocus: true,
+        autofocus: autoFocus ?? false,
         maxLines: 1,
         style: Theme.of(context).textTheme.bodyMedium,
         onChanged: onChanged,
