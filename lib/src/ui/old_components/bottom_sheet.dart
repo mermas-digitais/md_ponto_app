@@ -106,12 +106,7 @@ class AddNewTaskBottomSheet extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                ListView(
-
-
-                ),
-
-               
+                ListView(),
 
                 Row(
                   children: [

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-import 'circle_avatar.dart';
+import '../components/atmos/circle_avatar/circle_avatar.dart';
 
 class TaskModels {
   final BuildContext context;
