@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'src/ui/home_page.dart';
-import 'src/utils/theme.dart';
+import 'src/ui/screens/screens.dart';
+import 'src/ui/theme/theme.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'Mermãs Digitais Ponto app',
       theme: lightTheme(),
       home: const HomePage(),
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
     );
   }
 }

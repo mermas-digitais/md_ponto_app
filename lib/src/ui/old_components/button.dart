@@ -8,7 +8,9 @@ class CustomButton {
   active({required String label, required void Function()? onPressed}) {
     return TextButton(
       onPressed: onPressed,
-      child: Text(label, style: Theme.of(context).textTheme.titleMedium),
+      child: Text(label,
+          style:
+              Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 14)),
     );
   }
 
@@ -27,7 +29,7 @@ class CustomButton {
                 color: Theme.of(context)
                     .colorScheme
                     .onSurfaceVariant
-                    .withOpacity(0.3),
+                    .withOpacity(0.4),
               )),
     );
   }

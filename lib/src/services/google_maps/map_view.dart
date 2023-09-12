@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:md_ponto_app/src/utils/toast_message.dart';
+import 'package:md_ponto_app/src/ui/helpers/toast/toast_message.dart';
 
 class MapView extends StatefulWidget {
   const MapView({super.key, required this.taskLocation});

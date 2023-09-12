@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
-import 'package:md_ponto_app/src/utils/google_maps.dart';
+import 'package:md_ponto_app/src/services/google_maps/map_view.dart';
 
 class FrequenceBottomSheet extends StatefulWidget {
   final String title;

@@ -8,6 +8,7 @@
 .html
 .js
 .env
+.fvm/flutter_sdk
 .DS_Store
 .atom/
 .buildlog/

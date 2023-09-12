@@ -1,0 +1,1 @@
+export 'md_ponto_app_repository.dart';

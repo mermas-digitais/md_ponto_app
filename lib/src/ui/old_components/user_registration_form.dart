@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:md_ponto_app/src/components/dialog.dart';
-import 'package:md_ponto_app/src/components/input.dart';
-import 'package:md_ponto_app/src/utils/validators.dart';
+import 'package:md_ponto_app/src/ui/old_components/dialog.dart';
+import 'package:md_ponto_app/src/ui/old_components/input.dart';
+import 'package:md_ponto_app/src/utils/validators/validators.dart';
 
 class UserRegistrationForm extends StatefulWidget {
   const UserRegistrationForm({super.key});

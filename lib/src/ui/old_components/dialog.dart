@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:md_ponto_app/src/components/button.dart';
+import 'package:md_ponto_app/src/ui/old_components/button.dart';
 
 class CustomDialog extends StatefulWidget {
   final String title;
@@ -82,20 +82,25 @@ class _CustomDialogState extends State<CustomDialog>
               ),
               const SizedBox(height: 12),
               widget.content,
-              const SizedBox(height: 38),
               widget.buttons
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomButton(
-                          context: context,
-                        ).inactive(
-                            label: "Cancelar",
-                            onPressed: Navigator.of(context).pop),
-                        const SizedBox(width: 20),
-                        CustomButton(context: context).active(
-                            label: widget.confirmText ?? "",
-                            onPressed: widget.confirmFunction),
+                        const SizedBox(height: 36),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CustomButton(
+                              context: context,
+                            ).inactive(
+                                label: "Cancelar",
+                                onPressed: Navigator.of(context).pop),
+                            const SizedBox(width: 20),
+                            CustomButton(context: context).active(
+                                label: widget.confirmText ?? "",
+                                onPressed: widget.confirmFunction),
+                          ],
+                        ),
                       ],
                     )
                   : const SizedBox.shrink(),

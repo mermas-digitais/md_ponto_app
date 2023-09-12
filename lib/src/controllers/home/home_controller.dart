@@ -1,8 +1,8 @@
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:md_ponto_app/src/data/repositories/md_ponto_app_repository.dart';
-import 'package:md_ponto_app/src/data/repositories/models/task_model.dart';
-import 'package:md_ponto_app/src/data/repositories/models/user_model.dart';
+import 'package:md_ponto_app/src/data/models/task/task_model.dart';
+import 'package:md_ponto_app/src/data/models/user/user_model.dart';
 
 class HomeController extends GetxController {
   final PontoAppRepository repository;

@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:md_ponto_app/src/data/repositories/models/user_model.dart';
+import 'package:md_ponto_app/src/data/models/user/user_model.dart';
 
-import 'models/task_model.dart';
+import '../models/task/task_model.dart';
 
 class PontoAppRepository {
   final Dio dio;
