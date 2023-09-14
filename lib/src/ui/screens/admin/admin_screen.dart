@@ -26,8 +26,18 @@ class _AdminPageState extends State<AdminPage>
     const Tab(text: 'Relatórios'),
   ];
 
-  late final UsersController _userController;
+  final UsersController _userController = Get.put(UsersController(
+      repository: PontoAppRepository(
+    dio: Dio(),
+  )));
+
+  final TasksController _taskController = Get.put(TasksController(
+      repository: PontoAppRepository(
+    dio: Dio(),
+  )));
+
   late List listUsers;
+  late List listTasks;
 
   @override
   void initState() {
@@ -38,11 +48,10 @@ class _AdminPageState extends State<AdminPage>
         _tabController.index = _tabController.index;
       });
     });
-    _userController = UsersController(
-      repository: PontoAppRepository(
-        dio: Dio(),
-      ),
-    );
+
+    _taskController.getListTasks();
+    listTasks = _taskController.listTasks;
+
     _userController.getListUsers();
     listUsers = _userController.listUsers;
   }
@@ -121,7 +130,10 @@ class _AdminPageState extends State<AdminPage>
                           listUsers: listUsers,
                           controller: _userController,
                         ),
-                        const TasksManage(),
+                        TasksManage(
+                          listTasks: listTasks,
+                          controller: _taskController,
+                        ),
                         const Center(child: Text('Relatórios')),
                       ],
                     ),

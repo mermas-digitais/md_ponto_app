@@ -13,7 +13,11 @@ class UsersController extends GetxController {
 //get list of all users from repository
   getListUsers() async {
     _listUsersIsLoading.value = true;
+
+    _listUsers.clear();
+
     final response = await repository.listUsers();
+
     _listUsers.addAll(response);
 
     _listUsersIsLoading.value = false;

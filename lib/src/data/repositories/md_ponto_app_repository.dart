@@ -56,29 +56,32 @@ class PontoAppRepository {
   Future<List> findUserByName(String name) async {
     //get api_url from .env
     final List<UserModel> userData = [];
-    final result =
-        await dio.get('${dotenv.env['API_URL']}/findUserByName/$name');
-    if (result.statusCode == 200) {
-      result.data
-          .map(
-            (item) => userData.add(
-              UserModel(
-                  uid: item['uid'],
-                  firstName: item['firstName'],
-                  lastName: item['lastName'],
-                  group: item['group'],
-                  userType: item['userType'],
-                  email: item['email'],
-                  frequence: item['frequence'],
-                  photo: int.parse(item['profilePhoto'])),
-            ),
-          )
-          .toList();
-      return userData.toList();
-    } else {
+
+    try {
+      final result =
+          await dio.get('${dotenv.env['API_URL']}/findUserByName/$name');
+
+      if (result.statusCode == 200) {
+        result.data
+            .map(
+              (item) => userData.add(
+                UserModel(
+                    uid: item['uid'],
+                    firstName: item['firstName'],
+                    lastName: item['lastName'],
+                    group: item['group'],
+                    userType: item['userType'],
+                    email: item['email'],
+                    frequence: item['frequence'],
+                    photo: int.parse(item['profilePhoto'])),
+              ),
+            )
+            .toList();
+      }
+    } catch (e) {
       toastMessage('Erro ao buscar usuário: $e');
-      return [].toList();
     }
+    return userData;
   }
 
   //list all users
@@ -111,14 +114,19 @@ class PontoAppRepository {
   //list all tasks
   Future<List<TaskModel>> listTasks() async {
     //get api_url from .env
-    final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
+
     final List<TaskModel> tasks = [];
-    if (result.statusCode == 200) {
-      result.data.map((item) => tasks.add(TaskModel.fromMap(item))).toList();
-      return tasks;
-    } else {
-      throw Exception('Failed to load tasks list');
+
+    try {
+      final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
+      if (result.statusCode == 200) {
+        result.data.map((item) => tasks.add(TaskModel.fromMap(item))).toList();
+      }
+    } catch (e) {
+      toastMessage('Erro ao buscar atividades: $e');
     }
+
+    return tasks;
   }
 
   //findUsersTask

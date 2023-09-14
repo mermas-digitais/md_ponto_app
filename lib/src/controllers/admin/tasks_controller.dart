@@ -13,7 +13,9 @@ class TasksController extends GetxController {
 //get list of all tasks from repository
   getListTasks() async {
     _listTasksIsLoading.value = true;
+    _listTasks.clear();
     final response = await repository.listTasks();
+
     _listTasks.addAll(response);
 
     _listTasksIsLoading.value = false;

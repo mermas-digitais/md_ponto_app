@@ -6,7 +6,15 @@ import '../../../../data/data.dart';
 import '../../../old_components/task_models.dart';
 
 class TasksManage extends StatefulWidget {
-  const TasksManage({super.key});
+  final List listTasks;
+
+  final TasksController controller;
+
+  const TasksManage({
+    super.key,
+    required this.listTasks,
+    required this.controller,
+  });
 
   @override
   State<TasksManage> createState() => _TasksManageState();
@@ -14,28 +22,20 @@ class TasksManage extends StatefulWidget {
 
 class _TasksManageState extends State<TasksManage> {
   final TextEditingController textEditingController = TextEditingController();
-  late final TasksController _controller;
-  late final List listTasks;
+
   @override
   void initState() {
-    _controller = TasksController(
-      repository: PontoAppRepository(
-        dio: Dio(),
-      ),
-    );
-    _controller.getListTasks();
-    listTasks = _controller.listTasks;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => _controller.listTasksIsLoading.value
+      () => widget.controller.listTasksIsLoading.value
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : listTasks.isEmpty
+          : widget.listTasks.isEmpty
               ? Center(
                   child: Text(
                     "Nenhuma tarefa encontrada",
@@ -45,7 +45,7 @@ class _TasksManageState extends State<TasksManage> {
               : ListView.separated(
                   physics: const BouncingScrollPhysics(),
                   //when keyboard is open, the listview dont move up
-                  itemCount: listTasks.length,
+                  itemCount: widget.listTasks.length,
                   separatorBuilder: (context, index) =>
                       const SizedBox(height: 22),
                   itemBuilder: (context, index) {
@@ -65,7 +65,7 @@ class _TasksManageState extends State<TasksManage> {
                                     ),
                               ),
                               Text(
-                                "(${listTasks.length})",
+                                "(${widget.listTasks.length})",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
@@ -81,27 +81,29 @@ class _TasksManageState extends State<TasksManage> {
                           const SizedBox(height: 22),
                           TaskModels(
                                   context: context,
-                                  name: listTasks[index].name,
-                                  description: listTasks[index].description,
+                                  name: widget.listTasks[index].name,
+                                  description:
+                                      widget.listTasks[index].description,
                                   displayLocation:
-                                      listTasks[index].displayLocation,
+                                      widget.listTasks[index].displayLocation,
                                   displayStartDate:
-                                      listTasks[index].displayStartDate,
+                                      widget.listTasks[index].displayStartDate,
                                   userUID: "ACFsy9WA74c81V8pT4iBUF9hjDh2",
-                                  taskUsers: listTasks[index].users)
+                                  taskUsers: widget.listTasks[index].users)
                               .inactiveTasks(),
                         ],
                       );
                     } else {
                       return TaskModels(
                               context: context,
-                              name: listTasks[index].name,
-                              description: listTasks[index].description,
-                              displayLocation: listTasks[index].displayLocation,
+                              name: widget.listTasks[index].name,
+                              description: widget.listTasks[index].description,
+                              displayLocation:
+                                  widget.listTasks[index].displayLocation,
                               displayStartDate:
-                                  listTasks[index].displayStartDate,
+                                  widget.listTasks[index].displayStartDate,
                               userUID: "ACFsy9WA74c81V8pT4iBUF9hjDh2",
-                              taskUsers: listTasks[index].users)
+                              taskUsers: widget.listTasks[index].users)
                           .inactiveTasks();
                     }
                   }),
