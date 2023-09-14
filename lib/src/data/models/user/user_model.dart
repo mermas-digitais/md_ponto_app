@@ -47,7 +47,7 @@ class UserModel {
       frequence: map['frequence'],
       photo: map['profilePhoto'].toString().contains('http')
           ? map['profilePhoto']
-          : int.parse(['profilePhoto'].toString()),
+          : int.parse(map['profilePhoto'].toString()),
     );
   }
 
