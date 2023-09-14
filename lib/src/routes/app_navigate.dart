@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import 'routes.dart';
 
-
 //create a class to call Navigator.pushNamed without context
 class AppNavigate {
   /// Navigation.pushNamed() shortcut.
@@ -20,17 +19,17 @@ class AppNavigate {
   /// Navigation.pushNamedAndRemoveUntil() shortcut.
   static _OffNamedUntil get offNamedUntil => _OffNamedUntil();
 
-  static _PopSecure pop(BuildContext context) => _PopSecure(context);}
+  static _PopSecure get pop => _PopSecure(Get.context!);
+}
 
-  
 class _PopSecure {
-  const _PopSecure(this.context);
-
   final BuildContext context;
 
-  void secure() {
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
+  _PopSecure(this.context);
+
+  void call() {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
     }
   }
 }
@@ -44,6 +43,9 @@ class _NavigateTo {
 
   Future<dynamic>? admin() async => Get.toNamed(Routes.admin);
 
+  Future<dynamic>? usersManage() async => Get.toNamed(Routes.usersManage);
+
+  Future<dynamic>? tasksManage() async => Get.toNamed(Routes.tasksManage);
 }
 
 class _OffAll {
@@ -51,13 +53,10 @@ class _OffAll {
 }
 
 class _OffAndTo {
-  Future<dynamic> login() async =>
-      Get.offAndToNamed(Routes.login);
+  Future<dynamic> login() async => Get.offAndToNamed(Routes.login);
 }
 
 class _OffNamedUntil {
-  Future<dynamic> login() async =>
-      Get.offNamedUntil(Routes.login, (route) => route.settings.name == Routes.login);
+  Future<dynamic> login() async => Get.offNamedUntil(
+      Routes.login, (route) => route.settings.name == Routes.login);
 }
-
-
