@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:md_ponto_app/src/ui/old_components/dialog.dart';
-import 'package:md_ponto_app/src/ui/old_components/input.dart';
+import '../../controllers/controllers.dart';
+import '../../ui/components/componentes.dart';
 import 'package:md_ponto_app/src/utils/validators/validators.dart';
 
 class UserRegistrationForm extends StatefulWidget {
@@ -12,7 +13,7 @@ class UserRegistrationForm extends StatefulWidget {
 
 class _UserRegistrationFormState extends State<UserRegistrationForm> {
   int value = 0;
-
+  late final UsersController _userController;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -41,16 +42,16 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Input(
+                CustomInput(
                   label: 'nome exemplo',
-                  onChanged: (value) => print(value),
+                  onChanged: (value) => {},
                   keyboardType: TextInputType.name,
                   validator: (value) => Validators.fieldEmpty(value),
                 ),
                 const SizedBox(height: 20),
-                Input(
+                CustomInput(
                   label: 'exemplo@email.com',
-                  onChanged: (value) => print(value),
+                  onChanged: (value) => {},
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) => Validators.email(value),
                 ),
@@ -101,7 +102,17 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         ],
       ),
       confirmText: "Confirmar",
-      confirmFunction: () => {formKey.currentState?.validate()},
+      confirmFunction: () => {
+        formKey.currentState?.validate()
+        // _userController.createUser(
+        //   UserModel(
+        //          firstName: formKey.currentState?.value['name'].toString(),
+        //   email: formKey.currentState?.value['email'].toString(),
+        //   group: value == 0 ? 'Monitor' : 'Admin',
+        //     type: "type", firstName: '', group: '', lastName: '', uid: '',
+        //   )
+        // ),
+      },
     );
   }
 }

@@ -5,11 +5,27 @@ import 'package:md_ponto_app/src/ui/components/atmos/circle_avatar/circle_avatar
 class CardUser extends StatelessWidget {
   final UserModel user;
 
-  const CardUser({super.key, required this.user});
+  factory CardUser({
+    Key? key,
+    required UserModel user,
+    required Widget content,
+  }) {
+    return CardUser._(
+      key: key,
+      user: user,
+      content: content,
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
+  factory CardUser.normal({
+    Key? key,
+    required UserModel user,
+    required BuildContext context,
+  }) {
+    return CardUser._(
+      key: key,
+      user: user,
+      content: ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Container(
           width: MediaQuery.of(context).size.width - 40,
@@ -49,6 +65,15 @@ class CardUser extends StatelessWidget {
               )
             ]),
           )),
+      ),
     );
+  }
+
+  const CardUser._({super.key, required this.user, required this.content});
+  final Widget content;
+
+  @override
+  Widget build(BuildContext context) {
+    return content;
   }
 }

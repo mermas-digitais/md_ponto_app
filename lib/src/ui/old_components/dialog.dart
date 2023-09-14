@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:md_ponto_app/src/ui/old_components/button.dart';
+import 'package:md_ponto_app/src/ui/components/atmos/buttons/text_button.dart';
 
 class CustomDialog extends StatefulWidget {
   final String title;
@@ -32,14 +32,14 @@ class _CustomDialogState extends State<CustomDialog>
 
     _animateController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 600),
     );
 
     _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 1.0),
+      begin: const Offset(0.0, 0.8),
       end: Offset.zero,
-    ).animate(
-        CurvedAnimation(parent: _animateController, curve: Curves.easeInOut));
+    ).animate(CurvedAnimation(
+        parent: _animateController, curve: Curves.fastEaseInToSlowEaseOut));
 
     _animateController.forward();
   }
