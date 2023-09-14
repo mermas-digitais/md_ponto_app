@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:md_ponto_app/src/data/models/user/user_model.dart';
+import 'package:md_ponto_app/src/ui/helpers/toast/toast_message.dart';
 
 import '../models/task/task_model.dart';
 
@@ -48,6 +49,75 @@ class PontoAppRepository {
       return userData.toList();
     } else {
       throw Exception('Failed to load user');
+    }
+  }
+
+  //find User by name
+  Future<List> findUserByName(String name) async {
+    //get api_url from .env
+    final List<UserModel> userData = [];
+    final result =
+        await dio.get('${dotenv.env['API_URL']}/findUserByName/$name');
+    if (result.statusCode == 200) {
+      result.data
+          .map(
+            (item) => userData.add(
+              UserModel(
+                  uid: item['uid'],
+                  firstName: item['firstName'],
+                  lastName: item['lastName'],
+                  group: item['group'],
+                  userType: item['userType'],
+                  email: item['email'],
+                  frequence: item['frequence'],
+                  photo: int.parse(item['profilePhoto'])),
+            ),
+          )
+          .toList();
+      return userData.toList();
+    } else {
+      toastMessage('Erro ao buscar usuário: $e');
+      return [].toList();
+    }
+  }
+
+  //list all users
+  Future<List<UserModel>> listUsers() async {
+    //get api_url from .env
+    final result = await dio.get('${dotenv.env['API_URL']}/listUsers');
+    final List<UserModel> users = [];
+    if (result.statusCode == 200) {
+      result.data.map((item) => users.add(UserModel.fromMap(item))).toList();
+      return users;
+    } else {
+      throw Exception('Failed to load users list');
+    }
+  }
+
+  //create user
+  Future createUser(UserModel user) async {
+    //get api_url from .env
+    final data = user.toMap();
+    data.addAll({'password': '123456'});
+    final result =
+        await dio.post('${dotenv.env['API_URL']}/createUser', data: data);
+    if (result.statusCode == 200) {
+      toastMessage('Usuário criado com sucesso!');
+    } else {
+      toastMessage('Erro ao criar usuário: $e');
+    }
+  }
+
+  //list all tasks
+  Future<List<TaskModel>> listTasks() async {
+    //get api_url from .env
+    final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
+    final List<TaskModel> tasks = [];
+    if (result.statusCode == 200) {
+      result.data.map((item) => tasks.add(TaskModel.fromMap(item))).toList();
+      return tasks;
+    } else {
+      throw Exception('Failed to load tasks list');
     }
   }
 
