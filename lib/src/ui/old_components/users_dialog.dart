@@ -80,8 +80,9 @@ class _UsersDialogState extends State<UsersDialog>
                                 )
                               ],
                             ),
-                            child: CardUser(
+                            child: CardUser.normal(
                               user: usersTask[index],
+                              context: context,
                             ),
                           ),
                         ),
