@@ -1,24 +1,80 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:md_ponto_app/src/ui/components/molecules/app_bar/app_bar.dart';
-import 'package:md_ponto_app/src/ui/components/organisms/scaffold/app_scaffold.dart';
-
-import '../../old_components/user_registration_form.dart';
+import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:md_ponto_app/src/ui/old_components/user_registration_form.dart';
+import '../admin/users_manage/users_manage.dart';
+import '../admin/tasks_manage/tasks_manage.dart';
+import '../../../controllers/controllers.dart';
+import '../../../data/data.dart';
+import '../../components/componentes.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
-
   @override
   State<AdminPage> createState() => _AdminPageState();
 }
 
-class _AdminPageState extends State<AdminPage> {
+class _AdminPageState extends State<AdminPage>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+  final TextEditingController textEditingController = TextEditingController();
+
+  final List<Tab> tabs = [
+    const Tab(text: 'Usuários'),
+    const Tab(text: 'Tarefas'),
+    const Tab(text: 'Relatórios'),
+  ];
+
+  late final UsersController _userController;
+  late List listUsers;
+
   @override
-  Widget build(BuildContext context) {
-    return CustomScaffold.withAppBarAndFloatingActionButton(
-        moveUpWhenKeyboardIsOpen: false,
-        appBar: CustomAppBar.withTitleAndBackButton(
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController.addListener(() {
+      setState(() {
+        _tabController.index = _tabController.index;
+      });
+    });
+    _userController = UsersController(
+      repository: PontoAppRepository(
+        dio: Dio(),
+      ),
+    );
+    _userController.getListUsers();
+    listUsers = _userController.listUsers;
+  }
+
+  findUserByName(String name) {
+    _userController.findUserByName(name);
+    listUsers.clear();
+    listUsers.addAllIf(
+        //item is not repeated
+        listUsers.where((element) => element['uid'] != element['uid']),
+        _userController.listUsers);
+  }
+
+  onRefresh() {
+    _userController.getListUsers();
+    listUsers.clear();
+    listUsers.addAllIf(
+        //item is not repeated
+        listUsers.where((element) => element['uid'] != element['uid']),
+        _userController.listUsers);
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        //dont resize when keyboard is open
+        resizeToAvoidBottomInset: false,
+        appBar: CustomAppBar.withTitleAndBackButtonAndTabBar(
+          heroTag: 'appbar',
           context: context,
-          title: 'Admin Page',
+          title: "Administração",
+          tabs: tabs,
+          tabController: _tabController,
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -30,21 +86,76 @@ class _AdminPageState extends State<AdminPage> {
               topRight: Radius.circular(40),
             ),
           ),
-
-          //child is a listview with users informations
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          onPressed: () {
-            //show dialog user_registration_form
-            showDialog(
-                context: context,
-                builder: (context) => const UserRegistrationForm());
-          },
-          child: Icon(
-            Icons.add,
-            color: Theme.of(context).colorScheme.onPrimary,
+          child:
+              //gerate a  5 users cards for test
+              Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                //search bar
+                CustomSearchBar(
+                  onChanged: (value) => {
+                    if (value == '' || value.isEmpty)
+                      onRefresh()
+                    else
+                      findUserByName(value)
+                  },
+                  hintText: 'Insira um nome para buscar',
+                  textEditingController: textEditingController,
+                  onSubmitted: (value) => {
+                    if (value == '' || value.isEmpty)
+                      onRefresh()
+                    else
+                      findUserByName(value)
+                  },
+                ),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        UserManage(
+                          listUsers: listUsers,
+                          controller: _userController,
+                        ),
+                        const TasksManage(),
+                        const Center(child: Text('Relatórios')),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ));
+        ),
+        //floating action button depends on the tab index
+        floatingActionButton:
+            _floatingActionButton(_tabController.index, context),
+      );
+}
+
+//function to gerate floating action button based on the tab index
+Widget _floatingActionButton(int index, BuildContext context) {
+  switch (index) {
+    case 0:
+      return FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => const UserRegistrationForm(),
+          );
+        },
+        child: const Icon(Iconsax.user_add),
+      );
+    case 1:
+      return FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Iconsax.clipboard_export),
+      );
+    default:
+      return const SizedBox();
   }
 }
