@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../components/componentes.dart';
-import 'package:md_ponto_app/src/ui/old_components/user_registration_form.dart';
 import 'package:md_ponto_app/src/ui/old_components/icon_text_button.dart';
 import 'package:md_ponto_app/src/ui/old_components/task_models.dart';
 import 'package:md_ponto_app/src/ui/old_components/users_dialog.dart';
 import '../../../controllers/controllers.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../data/repositories/md_ponto_app_repository.dart';
-import '../../old_components/bottom_sheet.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -81,13 +79,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   child: Scaffold(
                     //not scroll when keyboard is open
                     resizeToAvoidBottomInset: false,
-                    appBar: CustomAppBar.withProfileInfo(
-                      userPhoto: userData[0].photo,
-                      userfirstName: userData[0].firstName,
-                      userEmail: userData[0].email,
-                      userGroup: userData[0].group,
-                      context: context,
-                    ),
+                    appBar: 
+                     CustomAppBar.withProfileInfo(
+                        userPhoto: userData[0].photo,
+                        userfirstName: userData[0].firstName,
+                        userEmail: userData[0].email,
+                        userGroup: userData[0].group,
+                        context: context,
+                        heroTag: "appBar",
+                      ),
+                    
                     body: RefreshIndicator(
                       onRefresh: () async {
                         _controller.getActiveTasks();
