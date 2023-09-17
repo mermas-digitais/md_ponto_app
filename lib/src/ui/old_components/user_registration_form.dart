@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:md_ponto_app/src/data/data.dart';
 import 'package:md_ponto_app/src/ui/old_components/dialog.dart';
 import '../../controllers/controllers.dart';
 import '../../ui/components/componentes.dart';
@@ -14,7 +15,11 @@ class UserRegistrationForm extends StatefulWidget {
 class _UserRegistrationFormState extends State<UserRegistrationForm> {
   int value = 0;
   late final UsersController _userController;
+
   final formKey = GlobalKey<FormState>();
+
+  late String? firstName;
+  late String? email;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +50,9 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                 CustomInput(
                   label: 'nome exemplo',
                   onChanged: (value) => {},
+                  onSaved: (String? value) {
+                    firstName = value;
+                  },
                   keyboardType: TextInputType.name,
                   validator: (value) => Validators.fieldEmpty(value),
                 ),
@@ -52,6 +60,9 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                 CustomInput(
                   label: 'exemplo@email.com',
                   onChanged: (value) => {},
+                  onSaved: (String? value) {
+                    email = value;
+                  },
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) => Validators.email(value),
                 ),
@@ -102,16 +113,22 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         ],
       ),
       confirmText: "Confirmar",
-      confirmFunction: () => {
-        formKey.currentState?.validate()
-        // _userController.createUser(
-        //   UserModel(
-        //          firstName: formKey.currentState?.value['name'].toString(),
-        //   email: formKey.currentState?.value['email'].toString(),
-        //   group: value == 0 ? 'Monitor' : 'Admin',
-        //     type: "type", firstName: '', group: '', lastName: '', uid: '',
-        //   )
-        // ),
+      confirmFunction: () {
+        if (formKey.currentState!.validate()) {
+          formKey.currentState?.save();
+
+          print('$firstName - $email - $value');
+
+          _userController.createUser(
+            UserModel(
+              firstName: firstName as String,
+              email: email,
+              group: value == 0 ? 'Monitor' : 'Admin',
+              lastName: '',
+              uid: '',
+            ),
+          );
+        }
       },
     );
   }

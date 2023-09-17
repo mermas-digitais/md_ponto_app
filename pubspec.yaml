@@ -82,6 +82,7 @@ flutter:
     - lib/src/ui/assets/avatars/avatar7.svg
     - lib/src/ui/assets/avatars/avatar8.svg
     - lib/src/ui/assets/avatars/avatar9.svg
+    - lib/src/ui/assets/default-image.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # An image asset can refer to one or more resolution-specific "variants", see

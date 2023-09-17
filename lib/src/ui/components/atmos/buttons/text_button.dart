@@ -33,4 +33,31 @@ class CustomButton {
               )),
     );
   }
+
+  withIconRight({
+    required String label,
+    required void Function()? onPressed,
+    required Widget icon,
+  }) {
+    return IntrinsicWidth(
+      child: TextButton(
+        onPressed: onPressed,
+        child: Row(
+          children: [
+            Text(
+              label,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 14),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            icon,
+          ],
+        ),
+      ),
+    );
+  }
 }

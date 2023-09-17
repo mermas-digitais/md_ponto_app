@@ -5,10 +5,12 @@ class CustomScaffold extends StatelessWidget {
     Key? key,
     required Widget body,
     FloatingActionButton? floatingActionButton,
+    Color? backgroundColor,
     bool? moveUpWhenKeyboardIsOpen,
   }) {
     return CustomScaffold._(
       key: key,
+      backgroundColor: backgroundColor,
       body: body,
       moveUpWhenKeyboardIsOpen: moveUpWhenKeyboardIsOpen,
       floatingActionButton: floatingActionButton,
@@ -18,11 +20,13 @@ class CustomScaffold extends StatelessWidget {
   factory CustomScaffold.withAppBar({
     Key? key,
     required AppBar appBar,
+    Color? backgroundColor,
     required Widget body,
     bool? moveUpWhenKeyboardIsOpen,
   }) {
     return CustomScaffold._(
       key: key,
+      backgroundColor: backgroundColor,
       moveUpWhenKeyboardIsOpen: moveUpWhenKeyboardIsOpen,
       appBar: appBar,
       body:
@@ -30,7 +34,6 @@ class CustomScaffold extends StatelessWidget {
           SingleChildScrollView(
               physics: const NeverScrollableScrollPhysics(),
               child: Column(children: [
-            
                 body,
               ])),
     );
@@ -99,18 +102,21 @@ class CustomScaffold extends StatelessWidget {
     this.floatingActionButton,
     this.moveUpWhenKeyboardIsOpen,
     this.appBar,
+    this.backgroundColor,
   });
 
   final Widget body;
   final FloatingActionButton? floatingActionButton;
   final bool? moveUpWhenKeyboardIsOpen;
   final AppBar? appBar;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: moveUpWhenKeyboardIsOpen ?? false,
       appBar: appBar,
+      backgroundColor: backgroundColor,
       body: body,
       floatingActionButton: floatingActionButton,
     );
