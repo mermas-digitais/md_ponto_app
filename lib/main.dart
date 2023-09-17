@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:md_ponto_app/src/routes/routes.dart';
-import 'package:md_ponto_app/src/ui/screens/welcome/welcome.screen.dart';
 import 'src/ui/screens/screens.dart';
 import 'src/ui/theme/theme.dart';
 

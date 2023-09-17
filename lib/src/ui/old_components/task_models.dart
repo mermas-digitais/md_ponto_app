@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../components/atmos/circle_avatar/circle_avatar.dart';
+import '../components/atmos/circle_avatar/profile_circle_avatar.dart';
+import '../components/componentes.dart';
 
 class TaskModels {
   final BuildContext context;
@@ -309,6 +310,12 @@ class TaskModels {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        //TODO: Colocar a foto do usuário
+                        //              ImageProfilePhoto(
+                        //   image: image,
+                        //   height: 10,
+                        //   width: 10,
+                        // ),
                         ProfileCircleAvatar(
                                 context: context, radius: 10.0, image: '1')
                             .small(light: true),

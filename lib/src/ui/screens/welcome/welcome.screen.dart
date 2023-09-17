@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:md_ponto_app/src/ui/components/atmos/buttons/buttons.dart';
-import 'package:md_ponto_app/src/ui/components/atmos/circle_image/circle_image.dart';
+import 'package:md_ponto_app/src/ui/components/atmos/circle_image/wellcome_cicle_image.dart';
 import 'package:md_ponto_app/src/ui/components/organisms/scaffold/app_scaffold.dart';
 import 'package:md_ponto_app/src/ui/screens/login/login_screen.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:md_ponto_app/src/data/models/user/user_model.dart';
-import 'package:md_ponto_app/src/ui/components/atmos/circle_avatar/circle_avatar.dart';
+import 'package:md_ponto_app/src/ui/components/atmos/circle_avatar/profile_circle_avatar.dart';
 
 class CardUser extends StatelessWidget {
   final UserModel user;
