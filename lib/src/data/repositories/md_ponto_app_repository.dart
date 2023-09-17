@@ -1,6 +1,6 @@
-import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:md_ponto_app/src/data/models/user/user_model.dart';
 import 'package:md_ponto_app/src/ui/helpers/toast/toast_message.dart';
 
@@ -16,7 +16,6 @@ class PontoAppRepository {
     final result = await dio.get('${dotenv.env['API_URL']}/listUsers');
     final List<UserModel> users = [];
     if (result.statusCode == 200) {
-      log(result.data);
       result.data.map((item) => users.add(UserModel.fromMap(item))).toList();
       return users;
     } else {
@@ -53,7 +52,7 @@ class PontoAppRepository {
   }
 
   //find User by name
-  Future<List> findUserByName(String name) async {
+  Future<List<UserModel>> findUserByName(String name) async {
     //get api_url from .env
     final List<UserModel> userData = [];
 
@@ -79,8 +78,9 @@ class PontoAppRepository {
             .toList();
       }
     } catch (e) {
-      toastMessage('Erro ao buscar usuário: $e');
+      print(e);
     }
+
     return userData;
   }
 
@@ -102,11 +102,14 @@ class PontoAppRepository {
     //get api_url from .env
     final data = user.toMap();
     data.addAll({'password': '123456'});
-    final result =
-        await dio.post('${dotenv.env['API_URL']}/createUser', data: data);
-    if (result.statusCode == 200) {
+
+    try {
+      print(data);
+      await dio.post('${dotenv.env['API_URL']}/createUser', data: data);
+
       toastMessage('Usuário criado com sucesso!');
-    } else {
+    } catch (e) {
+      print(e);
       toastMessage('Erro ao criar usuário: $e');
     }
   }
@@ -127,6 +130,41 @@ class PontoAppRepository {
     }
 
     return tasks;
+  }
+
+  Future<List<TaskModel>> findTaskByName(String name) async {
+    //get api_url from .env
+    final List<TaskModel> taskData = [];
+
+    try {
+      final result =
+          await dio.get('${dotenv.env['API_URL']}/listTasksByName/$name');
+
+      if (result.statusCode == 200) {
+        result.data
+            .map(
+              (item) => taskData.add(
+                TaskModel(
+                  id: item['id'],
+                  name: item['name'],
+                  description: item['description'],
+                  group: item['group'],
+                  location: item['location'],
+                  displayLocation: item['displayLocation'],
+                  startDate: item['startDate'],
+                  displayStartDate: item['displayStartDate'],
+                  endDate: item['endDate'],
+                  status: item['status'],
+                  users: item['users'],
+                ),
+              ),
+            )
+            .toList();
+      }
+    } catch (e) {
+      toastMessage('Erro ao buscar Atividades: $e');
+    }
+    return taskData;
   }
 
   //findUsersTask

@@ -1,5 +1,6 @@
 //create a search bar widget with a text field and a search icon
 import 'package:flutter/material.dart';
+import 'package:md_ponto_app/src/utils/validators/validators.dart';
 
 import '../../componentes.dart';
 
@@ -10,12 +11,17 @@ class CustomSearchBar extends StatefulWidget {
     this.onSubmitted,
     this.hintText,
     required this.textEditingController,
+    this.onClear,
+    this.onSearch,
   });
 
   final ValueChanged<String> onChanged;
   final ValueChanged<String>? onSubmitted;
   final String? hintText;
   final TextEditingController textEditingController;
+  final Function? onClear;
+  final void Function()? onSearch;
+
   @override
   State<CustomSearchBar> createState() => _CustomSearchBarState();
 }
@@ -24,9 +30,6 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   initState() {
     super.initState();
-    widget.textEditingController.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -44,6 +47,9 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               keyboardType: TextInputType.text,
               autoFocus: false,
               controller: widget.textEditingController,
+              onClear: widget.onClear,
+              onSearch: widget.onSearch,
+              onSubmitted: widget.onSubmitted,
             ),
           ),
         ],

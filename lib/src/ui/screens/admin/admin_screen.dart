@@ -26,10 +26,13 @@ class _AdminPageState extends State<AdminPage>
     const Tab(text: 'Relatórios'),
   ];
 
-  final UsersController _userController = Get.put(UsersController(
+  final UsersController _userController = Get.put(
+    UsersController(
       repository: PontoAppRepository(
-    dio: Dio(),
-  )));
+        dio: Dio(),
+      ),
+    ),
+  );
 
   final TasksController _taskController = Get.put(TasksController(
       repository: PontoAppRepository(
@@ -58,20 +61,43 @@ class _AdminPageState extends State<AdminPage>
 
   findUserByName(String name) {
     _userController.findUserByName(name);
+
     listUsers.clear();
     listUsers.addAllIf(
-        //item is not repeated
-        listUsers.where((element) => element['uid'] != element['uid']),
-        _userController.listUsers);
+      //item is not repeated
+      listUsers.where((element) => element['uid'] != element['uid']),
+      _userController.listUsers,
+    );
   }
 
-  onRefresh() {
-    _userController.getListUsers();
+  findTaskByName(String name) {
+    _taskController.findTaskByName(name);
+
+    listTasks.clear();
+    listTasks.addAllIf(
+      //item is not repeated
+      listTasks.where((element) => element['uid'] != element['uid']),
+      _taskController.listTasks,
+    );
+  }
+
+  void onSearch(String value) {
+    if (value.isEmpty) {
+      onRefresh();
+    }
+
+    _tabController.index == 0 ? findUserByName(value) : findTaskByName(value);
+  }
+
+  void onRefresh() {
+    listTasks.clear();
     listUsers.clear();
-    listUsers.addAllIf(
-        //item is not repeated
-        listUsers.where((element) => element['uid'] != element['uid']),
-        _userController.listUsers);
+    _taskController.getListTasks();
+
+    listTasks = _taskController.listTasks;
+
+    _userController.getListUsers();
+    listUsers = _userController.listUsers;
   }
 
   @override
@@ -104,20 +130,19 @@ class _AdminPageState extends State<AdminPage>
               children: [
                 //search bar
                 CustomSearchBar(
-                  onChanged: (value) => {
-                    if (value == '' || value.isEmpty)
-                      onRefresh()
-                    else
-                      findUserByName(value)
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      onRefresh();
+                    }
                   },
+                  onSearch: () => onSearch(textEditingController.text),
                   hintText: 'Insira um nome para buscar',
                   textEditingController: textEditingController,
-                  onSubmitted: (value) => {
-                    if (value == '' || value.isEmpty)
-                      onRefresh()
-                    else
-                      findUserByName(value)
+                  onSubmitted: (value) {
+                    onSearch(value);
+                    print(value);
                   },
+                  onClear: onRefresh,
                 ),
                 const SizedBox(height: 20),
                 Expanded(

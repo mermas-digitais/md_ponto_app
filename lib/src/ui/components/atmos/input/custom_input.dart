@@ -4,7 +4,7 @@ class CustomInput extends StatelessWidget {
   factory CustomInput({
     Key? key,
     required String label,
-    required void Function(String) onChanged,
+    void Function(String)? onChanged,
     String? Function(String?)? validator,
     double? height,
     double? width,
@@ -36,7 +36,7 @@ class CustomInput extends StatelessWidget {
   factory CustomInput.variant({
     Key? key,
     required String label,
-    required void Function(String) onChanged,
+    void Function(String)? onChanged,
     String? Function(String?)? validator,
     double? height,
     double? width,
@@ -70,7 +70,7 @@ class CustomInput extends StatelessWidget {
   const CustomInput._({
     Key? key,
     required this.label,
-    required this.onChanged,
+    this.onChanged,
     this.validator,
     this.height,
     this.width,
@@ -85,7 +85,7 @@ class CustomInput extends StatelessWidget {
   });
 
   final String label;
-  final void Function(String) onChanged;
+  final void Function(String)? onChanged;
   final String? Function(String?)? validator;
   final double? height;
   final double? width;

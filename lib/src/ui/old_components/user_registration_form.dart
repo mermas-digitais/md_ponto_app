@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:md_ponto_app/src/data/data.dart';
 import 'package:md_ponto_app/src/ui/old_components/dialog.dart';
@@ -14,12 +15,22 @@ class UserRegistrationForm extends StatefulWidget {
 
 class _UserRegistrationFormState extends State<UserRegistrationForm> {
   int value = 0;
-  late final UsersController _userController;
 
+  late final UsersController _userController;
   final formKey = GlobalKey<FormState>();
 
   late String? firstName;
   late String? email;
+
+  @override
+  void initState() {
+    super.initState();
+    _userController = UsersController(
+      repository: PontoAppRepository(
+        dio: Dio(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +60,6 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
               children: [
                 CustomInput(
                   label: 'nome exemplo',
-                  onChanged: (value) => {},
                   onSaved: (String? value) {
                     firstName = value;
                   },
@@ -59,7 +69,6 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                 const SizedBox(height: 20),
                 CustomInput(
                   label: 'exemplo@email.com',
-                  onChanged: (value) => {},
                   onSaved: (String? value) {
                     email = value;
                   },
@@ -89,7 +98,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                       return ChoiceChip(
                           selectedColor: Theme.of(context).colorScheme.primary,
                           label: Text(
-                            index == 0 ? 'Monitor' : "Admin",
+                            index == 0 ? 'Monitor' : "Voluntário",
                             style: value == index
                                 ? Theme.of(context)
                                     .textTheme
@@ -117,15 +126,18 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         if (formKey.currentState!.validate()) {
           formKey.currentState?.save();
 
-          print('$firstName - $email - $value');
+          //TODO: Modificar o useType
 
           _userController.createUser(
             UserModel(
               firstName: firstName as String,
               email: email,
-              group: value == 0 ? 'Monitor' : 'Admin',
+              group: value == 0 ? 'Monitor' : 'Voluntário',
               lastName: '',
               uid: '',
+              frequence: 0,
+              photo: 0,
+              userType: 'user',
             ),
           );
         }

@@ -14,11 +14,11 @@ class UsersController extends GetxController {
   getListUsers() async {
     _listUsersIsLoading.value = true;
 
-    _listUsers.clear();
-
     final response = await repository.listUsers();
 
-    _listUsers.addAll(response);
+    if (_listUsers.isEmpty) {
+      _listUsers.addAll(response);
+    }
 
     _listUsersIsLoading.value = false;
   }
@@ -26,7 +26,10 @@ class UsersController extends GetxController {
   findUserByName(String name) async {
     _listUsersIsLoading.value = true;
     final response = await repository.findUserByName(name);
-    _listUsers.addAll(response as List<UserModel>);
+
+    if (_listUsers.isEmpty) {
+      _listUsers.addAll(response);
+    }
 
     _listUsersIsLoading.value = false;
   }
@@ -34,8 +37,9 @@ class UsersController extends GetxController {
   //createUser
   createUser(UserModel user) async {
     _listUsersIsLoading.value = true;
-    final response = await repository.createUser(user);
-    _listUsers.add(response);
+    // final response =
+    await repository.createUser(user);
+    // _listUsers.add(response);
 
     _listUsersIsLoading.value = false;
   }

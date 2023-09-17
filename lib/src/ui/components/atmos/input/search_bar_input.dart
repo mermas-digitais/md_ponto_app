@@ -12,8 +12,11 @@ class SearchBarInput extends StatelessWidget {
   final TextEditingController? controller;
   final bool? filled;
   final IconData? icon;
+  final Function? onClear;
+  final void Function()? onSearch;
+  final void Function(String)? onSubmitted;
 
-  const SearchBarInput({
+  SearchBarInput({
     super.key,
     required this.label,
     required this.onChanged,
@@ -25,6 +28,9 @@ class SearchBarInput extends StatelessWidget {
     this.controller,
     this.filled,
     this.icon,
+    this.onClear,
+    this.onSearch,
+    this.onSubmitted,
   });
 
   @override
@@ -47,6 +53,9 @@ class SearchBarInput extends StatelessWidget {
                     keyboardType: keyboardType,
                     autofocus: autoFocus ?? false,
                     controller: controller,
+                    onFieldSubmitted: (value) {
+                      onSubmitted!(value);
+                    },
                     textAlignVertical: TextAlignVertical.bottom,
                     textAlign: TextAlign.start,
                     maxLines: 1,
@@ -80,7 +89,10 @@ class SearchBarInput extends StatelessWidget {
                         ? Row(
                             children: [
                               IconButton(
-                                onPressed: () => controller?.clear(),
+                                onPressed: () {
+                                  controller?.clear();
+                                  onClear!();
+                                },
                                 style: Theme.of(context)
                                     .iconButtonTheme
                                     .style
@@ -89,9 +101,10 @@ class SearchBarInput extends StatelessWidget {
                                             const MaterialStatePropertyAll(
                                       Colors.transparent,
                                     )),
-                                icon: Icon(Iconsax.close_square,
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
+                                icon: Icon(
+                                  Iconsax.close_square,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                               Text("|",
                                   style: Theme.of(context)
@@ -106,7 +119,7 @@ class SearchBarInput extends StatelessWidget {
                           )
                         : const SizedBox.shrink(),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: onSearch,
                       style: Theme.of(context).iconButtonTheme.style?.copyWith(
                               backgroundColor: const MaterialStatePropertyAll(
                             Colors.transparent,
@@ -123,6 +136,7 @@ class SearchBarInput extends StatelessWidget {
             keyboardType: keyboardType,
             autofocus: autoFocus ?? false,
             controller: controller,
+            onFieldSubmitted: onSubmitted,
             textAlignVertical: TextAlignVertical.bottom,
             textAlign: TextAlign.start,
             maxLines: 1,
