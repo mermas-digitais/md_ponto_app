@@ -138,16 +138,16 @@ class TaskModels {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ProfileCircleAvatar(
-                                    context: context, radius: 10.0, image: 1)
+                                    context: context, radius: 10.0, image: '1')
                                 .small(),
                             ProfileCircleAvatar(
-                                    context: context, radius: 10.0, image: 2)
+                                    context: context, radius: 10.0, image: '2')
                                 .small(),
                             ProfileCircleAvatar(
-                                    context: context, radius: 10.0, image: 3)
+                                    context: context, radius: 10.0, image: '3')
                                 .small(),
                             ProfileCircleAvatar(
-                                    context: context, radius: 10.0, image: 4)
+                                    context: context, radius: 10.0, image: '4')
                                 .small(),
                           ],
                         )
@@ -310,16 +310,16 @@ class TaskModels {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ProfileCircleAvatar(
-                                context: context, radius: 10.0, image: 1)
+                                context: context, radius: 10.0, image: '1')
                             .small(light: true),
                         ProfileCircleAvatar(
-                                context: context, radius: 10.0, image: 2)
+                                context: context, radius: 10.0, image: '2')
                             .small(light: true),
                         ProfileCircleAvatar(
-                                context: context, radius: 10.0, image: 3)
+                                context: context, radius: 10.0, image: '3')
                             .small(light: true),
                         ProfileCircleAvatar(
-                                context: context, radius: 10.0, image: 4)
+                                context: context, radius: 10.0, image: '4')
                             .small(light: true),
                       ],
                     )

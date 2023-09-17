@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ProfileCircleAvatar {
   final BuildContext context;
   final double radius;
-  final int image;
+  final String image;
 
   ProfileCircleAvatar({
     required this.context,

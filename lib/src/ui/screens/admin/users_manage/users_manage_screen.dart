@@ -78,7 +78,8 @@ class _UserManageState extends State<UserManage> {
                               firstName: widget.listUsers[index].firstName,
                               lastName: widget.listUsers[index].lastName,
                               group: widget.listUsers[index].group,
-                              photo: widget.listUsers[index].photo,
+                              profilePhoto:
+                                  widget.listUsers[index].profilePhoto,
                             ),
                             context: context,
                           ),
@@ -91,7 +92,7 @@ class _UserManageState extends State<UserManage> {
                           firstName: widget.listUsers[index].firstName,
                           lastName: widget.listUsers[index].lastName,
                           group: widget.listUsers[index].group,
-                          photo: widget.listUsers[index].photo,
+                          profilePhoto: widget.listUsers[index].profilePhoto,
                         ),
                         context: context,
                       );

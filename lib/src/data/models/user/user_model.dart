@@ -2,24 +2,24 @@
 import 'dart:convert';
 
 class UserModel {
-  final String uid;
+  final String? uid;
   final String firstName;
   final String lastName;
   final String? group;
   final String? userType;
   final String? email;
   final num? frequence;
-  final int? photo;
+  final String? profilePhoto;
 
   UserModel({
-    required this.uid,
+    this.uid,
     required this.firstName,
     required this.lastName,
     required this.group,
     this.userType,
     this.email,
     this.frequence,
-    this.photo,
+    this.profilePhoto,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,7 +31,7 @@ class UserModel {
       'userType': userType,
       'email': email,
       'frequence': frequence.toString(),
-      'photo': photo,
+      'profilePhoto': profilePhoto,
     };
   }
 
@@ -45,9 +45,7 @@ class UserModel {
       email: map['email'] as String,
       //parse the frequence to string
       frequence: map['frequence'],
-      photo: map['profilePhoto'].toString().contains('http')
-          ? map['profilePhoto']
-          : int.parse(map['profilePhoto'].toString()),
+      profilePhoto: map['profilePhoto'] as String,
     );
   }
 
@@ -58,6 +56,6 @@ class UserModel {
 
   @override
   String toString() {
-    return '(uid: $uid, firstName: $firstName, lastName: $lastName, group: $group, userType: $userType, email: $email, frequence: $frequence, photo: $photo)';
+    return '(uid: $uid, firstName: $firstName, lastName: $lastName, group: $group, userType: $userType, email: $email, frequence: $frequence, profilePhoto: $profilePhoto)';
   }
 }

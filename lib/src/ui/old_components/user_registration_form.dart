@@ -14,13 +14,18 @@ class UserRegistrationForm extends StatefulWidget {
 }
 
 class _UserRegistrationFormState extends State<UserRegistrationForm> {
-  int value = 0;
-
   late final UsersController _userController;
   final formKey = GlobalKey<FormState>();
 
   late String? firstName;
+  late String? lastName;
   late String? email;
+
+  int userGroup = 0;
+  int userType = 0;
+
+  String getUserGroup(int index) => index == 0 ? 'Bolsista' : "Voluntário";
+  String getUserType(int index) => index == 0 ? 'Usuário' : "Administrador";
 
   @override
   void initState() {
@@ -37,107 +42,160 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
     return CustomDialog(
       buttons: true,
       title: "Cadastrar usuário",
-      content: Column(
-        children: [
-          Row(
+      content: SizedBox(
+        height: MediaQuery.of(context).size.height / 2.6,
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              Text(
-                'Informações do usuário',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontSize: 14,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onBackground
-                        .withOpacity(0.4)),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomInput(
-                  label: 'nome exemplo',
-                  onSaved: (String? value) {
-                    firstName = value;
-                  },
-                  keyboardType: TextInputType.name,
-                  validator: (value) => Validators.fieldEmpty(value),
-                ),
-                const SizedBox(height: 20),
-                CustomInput(
-                  label: 'exemplo@email.com',
-                  onSaved: (String? value) {
-                    email = value;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) => Validators.email(value),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  children: [
-                    Text(
-                      'Tipo de usuário',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              Row(
+                children: [
+                  Text(
+                    'Informações do usuário',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontSize: 14,
                           color: Theme.of(context)
                               .colorScheme
                               .onBackground
-                              .withOpacity(0.4)),
+                              .withOpacity(0.4),
+                        ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomInput(
+                      label: 'nome',
+                      onSaved: (String? value) {
+                        firstName = value;
+                      },
+                      keyboardType: TextInputType.name,
+                      validator: (value) => Validators.fieldEmpty(value),
                     ),
+                    const SizedBox(height: 20),
+                    CustomInput(
+                      label: 'exemplo@email.com',
+                      onSaved: (String? value) {
+                        email = value;
+                      },
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) => Validators.email(value),
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      children: [
+                        Text(
+                          'Grupo',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontSize: 14,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.4)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 14,
+                      children: List<Widget>.generate(
+                        2,
+                        (int index) {
+                          return ChoiceChip(
+                              selectedColor:
+                                  Theme.of(context).colorScheme.primary,
+                              label: Text(
+                                getUserGroup(index),
+                                style: userGroup == index
+                                    ? Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background)
+                                    : Theme.of(context).textTheme.bodySmall,
+                              ),
+                              selected: userGroup == index,
+                              onSelected: (bool selected) {
+                                setState(
+                                    () => userGroup = selected ? index : 0);
+                              });
+                        },
+                      ).toList(),
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Text(
+                          'Tipo de usuário',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontSize: 14,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.4)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 14,
+                      children: List<Widget>.generate(
+                        2,
+                        (int index) {
+                          return ChoiceChip(
+                            selectedColor:
+                                Theme.of(context).colorScheme.primary,
+                            label: Text(
+                              getUserType(index),
+                              style: userType == index
+                                  ? Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background)
+                                  : Theme.of(context).textTheme.bodySmall,
+                            ),
+                            selected: userType == index,
+                            onSelected: (bool selected) {
+                              setState(() => userType = selected ? index : 0);
+                            },
+                          );
+                        },
+                      ).toList(),
+                    )
                   ],
                 ),
-                const SizedBox(height: 6),
-                Wrap(
-                  spacing: 14,
-                  children: List<Widget>.generate(
-                    2,
-                    (int index) {
-                      return ChoiceChip(
-                          selectedColor: Theme.of(context).colorScheme.primary,
-                          label: Text(
-                            index == 0 ? 'Monitor' : "Voluntário",
-                            style: value == index
-                                ? Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background)
-                                : Theme.of(context).textTheme.bodySmall,
-                          ),
-                          selected: value == index,
-                          onSelected: (bool selected) {
-                            setState(() => value = selected ? index : 0);
-                          });
-                    },
-                  ).toList(),
-                )
-              ],
-            ),
-          )
-        ],
+              )
+            ],
+          ),
+        ),
       ),
       confirmText: "Confirmar",
       confirmFunction: () {
         if (formKey.currentState!.validate()) {
           formKey.currentState?.save();
 
-          //TODO: Modificar o useType
-
           _userController.createUser(
             UserModel(
               firstName: firstName as String,
+              lastName: lastName as String,
               email: email,
-              group: value == 0 ? 'Monitor' : 'Voluntário',
-              lastName: '',
-              uid: '',
-              frequence: 0,
-              photo: 0,
-              userType: 'user',
+              group: getUserGroup(userGroup),
+              userType: userType == 0 ? 'user' : 'admin',
+              profilePhoto: '0',
             ),
           );
         }

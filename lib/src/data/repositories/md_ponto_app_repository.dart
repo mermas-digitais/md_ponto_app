@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:get/get.dart';
 import 'package:md_ponto_app/src/data/models/user/user_model.dart';
 import 'package:md_ponto_app/src/ui/helpers/toast/toast_message.dart';
 
@@ -29,21 +28,7 @@ class PontoAppRepository {
     final result = await dio.get('${dotenv.env['API_URL']}/findUser/$uid');
     final List<UserModel> userData = [];
     if (result.statusCode == 200) {
-      result.data
-          .map(
-            (item) => userData.add(
-              UserModel(
-                  uid: item['uid'],
-                  firstName: item['firstName'],
-                  lastName: item['lastName'],
-                  group: item['group'],
-                  userType: item['userType'],
-                  email: item['email'],
-                  frequence: item['frequence'],
-                  photo: int.parse(item['profilePhoto'])),
-            ),
-          )
-          .toList();
+      result.data.map((item) => userData.add(UserModel.fromMap(item))).toList();
 
       return userData.toList();
     } else {
@@ -57,24 +42,13 @@ class PontoAppRepository {
     final List<UserModel> userData = [];
 
     try {
-      final result =
-          await dio.get('${dotenv.env['API_URL']}/findUserByName/$name');
+      final result = await dio.get(
+        '${dotenv.env['API_URL']}/${name.isEmpty ? 'listUsers' : 'findUserByName/$name'}',
+      );
 
       if (result.statusCode == 200) {
         result.data
-            .map(
-              (item) => userData.add(
-                UserModel(
-                    uid: item['uid'],
-                    firstName: item['firstName'],
-                    lastName: item['lastName'],
-                    group: item['group'],
-                    userType: item['userType'],
-                    email: item['email'],
-                    frequence: item['frequence'],
-                    photo: int.parse(item['profilePhoto'])),
-              ),
-            )
+            .map((item) => userData.add(UserModel.fromMap(item)))
             .toList();
       }
     } catch (e) {
@@ -137,32 +111,18 @@ class PontoAppRepository {
     final List<TaskModel> taskData = [];
 
     try {
-      final result =
-          await dio.get('${dotenv.env['API_URL']}/listTasksByName/$name');
-
+      final result = await dio.get(
+        '${dotenv.env['API_URL']}/${name.isEmpty ? 'listTasks' : 'listTasksByName/$name'}',
+      );
       if (result.statusCode == 200) {
         result.data
             .map(
-              (item) => taskData.add(
-                TaskModel(
-                  id: item['id'],
-                  name: item['name'],
-                  description: item['description'],
-                  group: item['group'],
-                  location: item['location'],
-                  displayLocation: item['displayLocation'],
-                  startDate: item['startDate'],
-                  displayStartDate: item['displayStartDate'],
-                  endDate: item['endDate'],
-                  status: item['status'],
-                  users: item['users'],
-                ),
-              ),
+              (item) => taskData.add(TaskModel.fromMap(item)),
             )
             .toList();
       }
     } catch (e) {
-      toastMessage('Erro ao buscar Atividades: $e');
+      print(e);
     }
     return taskData;
   }
@@ -183,7 +143,7 @@ class PontoAppRepository {
                   firstName: item['firstName'],
                   lastName: item['lastName'],
                   group: item['group'],
-                  photo: int.parse(item['profilePhoto']),
+                  profilePhoto: item['profilePhoto'],
                 ),
               ),
             });
@@ -204,10 +164,10 @@ class PontoAppRepository {
           await dio.get('${dotenv.env['API_URL']}/getUserPhoto/$uid');
       if (result.statusCode == 200) {
         for (var item in result.data) {
-          if (!item['photo'].contains('https://')) {
-            userPhotos.add('linkDoRepositorioComAsFotos/$item[photo]');
+          if (!item['profilePhoto'].contains('https://')) {
+            userPhotos.add('linkDoRepositorioComAsFotos/$item[profilePhoto]');
           }
-          userPhotos.add(item['photo']);
+          userPhotos.add(item['profilePhoto']);
         }
       }
     }
@@ -224,21 +184,8 @@ class PontoAppRepository {
       //result add to tasksActive when status = "active"
       for (var item in result.data) {
         if (item['status'] == "active") {
-          tasksActive.add(
-            TaskModel(
-              id: item['_id'],
-              name: item['name'],
-              description: item['description'],
-              group: item['group'],
-              location: item['location'],
-              displayLocation: item['displayLocation'],
-              startDate: item['startDate'],
-              displayStartDate: item['displayStartDate'],
-              endDate: item['endDate'],
-              status: item['status'],
-              users: item['users'],
-            ),
-          );
+          tasksActive.add(TaskModel.fromMap(item));
+          // tasksActive.addAll({'active': item['active']}) as List<TaskModel>;
         }
       }
       return tasksActive.toList();
@@ -249,26 +196,13 @@ class PontoAppRepository {
 
   Future<List<TaskModel>> getInactiveTasks() async {
     //get api_url from .env
+
     final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
     final List<TaskModel> tasksInactive = [];
     if (result.statusCode == 200) {
       for (var item in result.data) {
         if (item['status'] == "inactive") {
-          tasksInactive.add(
-            TaskModel(
-              id: item['_id'],
-              name: item['name'],
-              description: item['description'],
-              group: item['group'],
-              location: item['location'],
-              displayLocation: item['displayLocation'],
-              startDate: item['startDate'],
-              displayStartDate: item['displayStartDate'],
-              endDate: item['endDate'],
-              status: item['status'],
-              users: item['users'],
-            ),
-          );
+          tasksInactive.add(TaskModel.fromMap(item));
         }
       }
       return tasksInactive.toList();
@@ -279,31 +213,21 @@ class PontoAppRepository {
 
   Future<List<TaskModel>> getScheduledTasks() async {
     //get api_url from .env
-    final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
     final List<TaskModel> tasksScheduleds = [];
-    if (result.statusCode == 200) {
-      for (var item in result.data) {
-        if (item['status'] == "active") {
-          tasksScheduleds.add(
-            TaskModel(
-              id: item['_id'],
-              name: item['name'],
-              description: item['description'],
-              group: item['group'],
-              location: item['location'],
-              displayLocation: item['displayLocation'],
-              startDate: item['startDate'],
-              displayStartDate: item['displayStartDate'],
-              endDate: item['endDate'],
-              status: item['status'],
-              users: item['users'],
-            ),
-          );
+    try {
+      final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
+
+      if (result.statusCode == 200) {
+        for (var item in result.data) {
+          if (item['status'] == "active") {
+            tasksScheduleds.add(TaskModel.fromMap(item));
+          }
         }
       }
-      return tasksScheduleds.toList();
-    } else {
+    } catch (e) {
       throw Exception('Failed to load Scheduled tasks');
     }
+
+    return tasksScheduleds.toList();
   }
 }

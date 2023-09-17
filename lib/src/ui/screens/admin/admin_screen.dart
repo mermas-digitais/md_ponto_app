@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:md_ponto_app/src/ui/old_components/user_registration_form.dart';
 import '../admin/users_manage/users_manage.dart';
@@ -18,6 +19,7 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+
   final TextEditingController textEditingController = TextEditingController();
 
   final List<Tab> tabs = [
@@ -42,9 +44,12 @@ class _AdminPageState extends State<AdminPage>
   late List listUsers;
   late List listTasks;
 
+  final debouncer = Debouncer(delay: const Duration(milliseconds: 400));
+
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(length: tabs.length, vsync: this);
     _tabController.addListener(() {
       setState(() {
@@ -82,10 +87,6 @@ class _AdminPageState extends State<AdminPage>
   }
 
   void onSearch(String value) {
-    if (value.isEmpty) {
-      onRefresh();
-    }
-
     _tabController.index == 0 ? findUserByName(value) : findTaskByName(value);
   }
 
@@ -130,20 +131,12 @@ class _AdminPageState extends State<AdminPage>
               children: [
                 //search bar
                 CustomSearchBar(
-                  onChanged: (value) {
-                    if (value.isEmpty) {
-                      onRefresh();
-                    }
-                  },
-                  onSearch: () => onSearch(textEditingController.text),
+                  onChanged: (value) => debouncer(() => onSearch(value)),
                   hintText: 'Insira um nome para buscar',
-                  textEditingController: textEditingController,
-                  onSubmitted: (value) {
-                    onSearch(value);
-                    print(value);
-                  },
                   onClear: onRefresh,
+                  textEditingController: textEditingController,
                 ),
+
                 const SizedBox(height: 20),
                 Expanded(
                   child: ClipRRect(

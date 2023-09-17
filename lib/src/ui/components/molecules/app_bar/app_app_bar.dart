@@ -48,7 +48,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
   factory CustomAppBar.withProfileInfo({
     Key? key,
-    required int userPhoto,
+    required String userPhoto,
     required String userfirstName,
     required String userEmail,
     required String userGroup,

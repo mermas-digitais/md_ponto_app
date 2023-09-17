@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class SearchBarInput extends StatelessWidget {
@@ -16,7 +17,7 @@ class SearchBarInput extends StatelessWidget {
   final void Function()? onSearch;
   final void Function(String)? onSubmitted;
 
-  SearchBarInput({
+  const SearchBarInput({
     super.key,
     required this.label,
     required this.onChanged,
@@ -35,8 +36,11 @@ class SearchBarInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final RxBool searchIsEmpty = false.obs;
+
     return filled ?? true
         ? Container(
+            height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
               // color: Theme.of(context).colorScheme.primary,
@@ -53,9 +57,6 @@ class SearchBarInput extends StatelessWidget {
                     keyboardType: keyboardType,
                     autofocus: autoFocus ?? false,
                     controller: controller,
-                    onFieldSubmitted: (value) {
-                      onSubmitted!(value);
-                    },
                     textAlignVertical: TextAlignVertical.bottom,
                     textAlign: TextAlign.start,
                     maxLines: 1,
@@ -63,7 +64,10 @@ class SearchBarInput extends StatelessWidget {
                         .textTheme
                         .bodyMedium
                         ?.copyWith(fontSize: 14),
-                    onChanged: onChanged,
+                    onChanged: (value) {
+                      searchIsEmpty.value = value.isNotEmpty;
+                      onChanged(value);
+                    },
                     validator: validator,
                     cursorColor: Theme.of(context).colorScheme.primary,
                     decoration: InputDecoration(
@@ -85,39 +89,43 @@ class SearchBarInput extends StatelessWidget {
                 //if user is typing, the icon is null
                 Row(
                   children: [
-                    controller?.text.isNotEmpty ?? true
-                        ? Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  controller?.clear();
-                                  onClear!();
-                                },
-                                style: Theme.of(context)
-                                    .iconButtonTheme
-                                    .style
-                                    ?.copyWith(
-                                        backgroundColor:
-                                            const MaterialStatePropertyAll(
-                                      Colors.transparent,
-                                    )),
-                                icon: Icon(
-                                  Iconsax.close_square,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              Text("|",
+                    Obx(
+                      () => searchIsEmpty.value
+                          ? Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    controller?.clear();
+                                    searchIsEmpty.value = false;
+                                    onClear!();
+                                  },
                                   style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
+                                      .iconButtonTheme
+                                      .style
                                       ?.copyWith(
-                                          fontSize: 20,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary)),
-                            ],
-                          )
-                        : const SizedBox.shrink(),
+                                          backgroundColor:
+                                              const MaterialStatePropertyAll(
+                                        Colors.transparent,
+                                      )),
+                                  icon: Icon(
+                                    Iconsax.close_square,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                                Text("|",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            fontSize: 20,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary)),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
+                    ),
                     IconButton(
                       onPressed: onSearch,
                       style: Theme.of(context).iconButtonTheme.style?.copyWith(

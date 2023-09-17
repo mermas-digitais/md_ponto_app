@@ -1,6 +1,5 @@
 //create a search bar widget with a text field and a search icon
 import 'package:flutter/material.dart';
-import 'package:md_ponto_app/src/utils/validators/validators.dart';
 
 import '../../componentes.dart';
 

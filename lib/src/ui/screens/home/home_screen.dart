@@ -79,16 +79,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   child: Scaffold(
                     //not scroll when keyboard is open
                     resizeToAvoidBottomInset: false,
-                    appBar: 
-                     CustomAppBar.withProfileInfo(
-                        userPhoto: userData[0].photo,
-                        userfirstName: userData[0].firstName,
-                        userEmail: userData[0].email,
-                        userGroup: userData[0].group,
-                        context: context,
-                        heroTag: "appBar",
-                      ),
-                    
+                    appBar: CustomAppBar.withProfileInfo(
+                      userPhoto: userData[0].profilePhoto,
+                      userfirstName: userData[0].firstName,
+                      userEmail: userData[0].email,
+                      userGroup: userData[0].group,
+                      context: context,
+                      heroTag: "appBar",
+                    ),
+
                     body: RefreshIndicator(
                       onRefresh: () async {
                         _controller.getActiveTasks();
