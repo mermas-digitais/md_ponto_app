@@ -52,7 +52,7 @@ class PontoAppRepository {
             .toList();
       }
     } catch (e) {
-      print(e);
+      null;
     }
 
     return userData;
@@ -78,22 +78,17 @@ class PontoAppRepository {
     data.addAll({'password': '123456'});
 
     try {
-      print(data);
       await dio.post('${dotenv.env['API_URL']}/createUser', data: data);
 
       toastMessage('Usuário criado com sucesso!');
     } catch (e) {
-      print(e);
-      toastMessage('Erro ao criar usuário: $e');
+      Future.error("Erro ao buscar dados: $e");
     }
   }
 
   //list all tasks
   Future<List<TaskModel>> listTasks() async {
-    //get api_url from .env
-
     final List<TaskModel> tasks = [];
-
     try {
       final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
       if (result.statusCode == 200) {
@@ -102,14 +97,11 @@ class PontoAppRepository {
     } catch (e) {
       toastMessage('Erro ao buscar atividades: $e');
     }
-
     return tasks;
   }
 
   Future<List<TaskModel>> findTaskByName(String name) async {
-    //get api_url from .env
     final List<TaskModel> taskData = [];
-
     try {
       final result = await dio.get(
         '${dotenv.env['API_URL']}/${name.isEmpty ? 'listTasks' : 'listTasksByName/$name'}',
@@ -122,16 +114,14 @@ class PontoAppRepository {
             .toList();
       }
     } catch (e) {
-      print(e);
+      return taskData;
     }
     return taskData;
   }
 
   //findUsersTask
   Future<List> getUsersTask(List<dynamic> uids) async {
-    //get api_url from .env
     final List<UserModel> userData = [];
-
     for (final id in uids) {
       final result = await dio.get('${dotenv.env['API_URL']}/findUser/$id');
 
@@ -157,7 +147,6 @@ class PontoAppRepository {
 
   //getAllUserPhotosById
   Future<List> getAllUserPhotosById(List uids) async {
-    //para cada uid em uids, chamar a api e retornar a lista de fotos
     final List userPhotos = [];
     for (var uid in uids) {
       final result =
@@ -175,9 +164,23 @@ class PontoAppRepository {
     return userPhotos.toList();
   }
 
+  //addUserToTask
+  Future addUserToTask(
+      String taskId, String userId, String userCoordinates) async {
+    try {
+      await dio.post(
+        '${dotenv.env['API_URL']}/addUserToTask/$taskId/$userId/',
+        data: {'userCoordinates': userCoordinates},
+      );
+
+      toastMessage('Usuário adicionado com sucesso!');
+    } catch (e) {
+      toastMessage("Erro ao adicionar usuário: $e");
+    }
+  }
+
   //getTasks
   Future<List<TaskModel>> getActiveTasks() async {
-    //get api_url from .env
     final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
     final List<TaskModel> tasksActive = [];
     if (result.statusCode == 200) {
@@ -185,7 +188,6 @@ class PontoAppRepository {
       for (var item in result.data) {
         if (item['status'] == "active") {
           tasksActive.add(TaskModel.fromMap(item));
-          // tasksActive.addAll({'active': item['active']}) as List<TaskModel>;
         }
       }
       return tasksActive.toList();
@@ -195,8 +197,6 @@ class PontoAppRepository {
   }
 
   Future<List<TaskModel>> getInactiveTasks() async {
-    //get api_url from .env
-
     final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
     final List<TaskModel> tasksInactive = [];
     if (result.statusCode == 200) {
@@ -212,7 +212,6 @@ class PontoAppRepository {
   }
 
   Future<List<TaskModel>> getScheduledTasks() async {
-    //get api_url from .env
     final List<TaskModel> tasksScheduleds = [];
     try {
       final result = await dio.get('${dotenv.env['API_URL']}/listTasks');
@@ -225,7 +224,7 @@ class PontoAppRepository {
         }
       }
     } catch (e) {
-      throw Exception('Failed to load Scheduled tasks');
+      toastMessage('Erro ao buscar atividades agendadas: $e');
     }
 
     return tasksScheduleds.toList();
