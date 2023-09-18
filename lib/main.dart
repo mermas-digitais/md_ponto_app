@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:md_ponto_app/src/routes/routes.dart';
 import 'src/ui/screens/screens.dart';
 import 'src/ui/theme/theme.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
+  await initializeDateFormatting('pt_BR', null);
   runApp(const MyApp());
 
   SystemChrome.setSystemUIOverlayStyle(
