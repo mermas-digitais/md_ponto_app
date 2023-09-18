@@ -37,10 +37,7 @@ class UsersController extends GetxController {
   //createUser
   createUser(UserModel user) async {
     _listUsersIsLoading.value = true;
-    // final response =
     await repository.createUser(user);
-    // _listUsers.add(response);
-
     _listUsersIsLoading.value = false;
   }
 }

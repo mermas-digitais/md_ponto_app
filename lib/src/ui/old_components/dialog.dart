@@ -80,7 +80,7 @@ class _CustomDialogState extends State<CustomDialog>
                     .withOpacity(0.6),
                 thickness: 1,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               widget.content,
               widget.buttons
                   ? Column(
