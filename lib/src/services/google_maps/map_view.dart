@@ -4,7 +4,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:md_ponto_app/src/ui/helpers/toast/toast_message.dart';
 
 class MapView extends StatefulWidget {
-  const MapView({super.key, required this.taskLocation});
+  const MapView({
+    super.key,
+    required this.taskLocation,
+    this.mapController,
+  });
+  final GoogleMapController? mapController;
   final String taskLocation;
 
   @override
@@ -78,7 +83,7 @@ class _MapViewState extends State<MapView> {
               target: LatLng(
                   (currentPosition.latitude + taskLocation.latitude) / 2,
                   (currentPosition.longitude + taskLocation.longitude) / 2),
-              zoom: 14.0,
+              zoom: 16.0,
             ),
             myLocationEnabled: true,
             myLocationButtonEnabled: true,
@@ -87,7 +92,7 @@ class _MapViewState extends State<MapView> {
             zoomGesturesEnabled: true,
             scrollGesturesEnabled: true,
             rotateGesturesEnabled: true,
-            // tiltGesturesEnabled: true,
+            tiltGesturesEnabled: true,
           );
         }
       },
@@ -119,8 +124,12 @@ class _MapViewState extends State<MapView> {
     } else {
       currentPosition = await Geolocator.getCurrentPosition()
           .then((value) => LatLng(value.latitude, value.longitude));
-      //if tasklocation contains numbers ",", "." and " ", then it's a valid location
-      if (widget.taskLocation.contains(RegExp(r'[0-9,. ]'))) {
+
+      //if tasklocation contains numbers ",", "." , "-" and " ", then it's a valid location
+      bool taskLocationIsValid =
+          widget.taskLocation.contains(RegExp(r'[0-9,.-]'));
+
+      if (taskLocationIsValid) {
         taskLocation = LatLng(double.parse(widget.taskLocation.split(",")[0]),
             double.parse(widget.taskLocation.split(",")[1]));
       } else {
