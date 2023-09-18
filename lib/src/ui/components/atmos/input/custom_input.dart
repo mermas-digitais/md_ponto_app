@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:md_ponto_app/src/ui/theme/theme.dart';
 
 class CustomInput extends StatelessWidget {
   factory CustomInput({
@@ -119,7 +120,7 @@ class CustomInput extends StatelessWidget {
         keyboardType: keyboardType,
         autofocus: autoFocus ?? false,
         controller: controller,
-        textAlignVertical: TextAlignVertical.bottom,
+        textAlignVertical: TextAlignVertical.center,
         textAlign: TextAlign.start,
         maxLines: maxLines ?? 1,
         style: variant == true
@@ -130,11 +131,16 @@ class CustomInput extends StatelessWidget {
         validator: validator,
         decoration: InputDecoration(
           hintText: label,
+          errorStyle: variant == true
+              ? Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 10, color: lightTheme().colorScheme.error)
+              : Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 10, color: lightTheme().colorScheme.error),
           hintStyle:
-              variant == true ? Theme.of(context).textTheme.titleMedium : null,
+              variant == true ? Theme.of(context).textTheme.bodyMedium : null,
           labelStyle: variant == true
-              ? Theme.of(context).textTheme.titleLarge
-              : Theme.of(context).textTheme.displaySmall,
+              ? Theme.of(context).textTheme.bodyMedium
+              : Theme.of(context).textTheme.bodyMedium,
           filled: true,
           fillColor: variant == true
               ? Theme.of(context).colorScheme.primary
