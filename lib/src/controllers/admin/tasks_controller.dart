@@ -33,4 +33,11 @@ class TasksController extends GetxController {
 
     _listTasksIsLoading.value = false;
   }
+
+  //addUserToTask
+  addUserToTask({required String taskId, userId, userCordinates}) async {
+    _listTasksIsLoading.value = true;
+    await repository.addUserToTask(taskId, userId, userCordinates);
+    _listTasksIsLoading.value = false;
+  }
 }
