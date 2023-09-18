@@ -54,6 +54,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required String userGroup,
     required BuildContext context,
     String? heroTag,
+    required bool? userAdmin,
   }) {
     return CustomAppBar._(
       key: key,
@@ -74,9 +75,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   customBorder: const CircleBorder(),
                   overlayColor: MaterialStatePropertyAll(
                       Theme.of(context).colorScheme.tertiary),
-                  child: ProfileCircleAvatar(
-                          context: context, radius: 30, image: userPhoto)
-                      .normal(),
+                  child:
+                      ProfileCircleAvatar.profile(radius: 30, image: userPhoto),
                   onTap: () {},
                 ),
 
@@ -113,20 +113,32 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
 
                 const Spacer(),
-                IconButton(
-                  icon: const Icon(Iconsax.user_search),
-                  onPressed: () {
-                    AppNavigate.to.admin();
-                  },
-                ),
-                const SizedBox(width: 8.0),
-                IconButton(
-                  style: Theme.of(context).iconButtonTheme.style,
-                  icon: const Icon(
-                    Iconsax.logout_1,
-                  ),
-                  onPressed: () {},
-                ),
+                userAdmin!
+                    ? Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Iconsax.user_search),
+                            onPressed: () {
+                              AppNavigate.to.admin();
+                            },
+                          ),
+                          const SizedBox(width: 8.0),
+                          IconButton(
+                            style: Theme.of(context).iconButtonTheme.style,
+                            icon: const Icon(
+                              Iconsax.logout_1,
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
+                      )
+                    : IconButton(
+                        style: Theme.of(context).iconButtonTheme.style,
+                        icon: const Icon(
+                          Iconsax.logout_1,
+                        ),
+                        onPressed: () {},
+                      ),
               ],
             ),
           ),

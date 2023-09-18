@@ -34,11 +34,10 @@ class CardUser extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 11.42, vertical: 9.13),
               child: Row(children: [
-                ProfileCircleAvatar(
-                  context: context,
+                ProfileCircleAvatar.normal(
                   radius: 24,
                   image: user.profilePhoto.toString(),
-                ).normal(),
+                ),
                 const SizedBox(width: 11),
                 Expanded(
                   child: Column(
