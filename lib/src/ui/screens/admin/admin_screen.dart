@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:md_ponto_app/src/ui/old_components/user_registration_form.dart';
 import '../admin/users_manage/users_manage.dart';
 import '../admin/tasks_manage/tasks_manage.dart';
 import '../../../controllers/controllers.dart';
@@ -49,27 +48,20 @@ class _AdminPageState extends State<AdminPage>
   @override
   void initState() {
     super.initState();
-
+    listUsers = _userController.listUsers;
+    _userController.getListUsers();
+    listTasks = _taskController.listTasks;
+    _taskController.getListTasks();
     _tabController = TabController(length: tabs.length, vsync: this);
     _tabController.addListener(() {
-      setState(() {
-        _tabController.index = _tabController.index;
-      });
+      _tabController.index = _tabController.index;
     });
-
-    _taskController.getListTasks();
-    listTasks = _taskController.listTasks;
-
-    _userController.getListUsers();
-    listUsers = _userController.listUsers;
   }
 
   findUserByName(String name) {
     _userController.findUserByName(name);
-
     listUsers.clear();
     listUsers.addAllIf(
-      //item is not repeated
       listUsers.where((element) => element['uid'] != element['uid']),
       _userController.listUsers,
     );
@@ -77,10 +69,8 @@ class _AdminPageState extends State<AdminPage>
 
   findTaskByName(String name) {
     _taskController.findTaskByName(name);
-
     listTasks.clear();
     listTasks.addAllIf(
-      //item is not repeated
       listTasks.where((element) => element['uid'] != element['uid']),
       _taskController.listTasks,
     );
@@ -161,7 +151,6 @@ class _AdminPageState extends State<AdminPage>
             ),
           ),
         ),
-        //floating action button depends on the tab index
         floatingActionButton:
             _floatingActionButton(_tabController.index, context),
       );
@@ -173,9 +162,10 @@ Widget _floatingActionButton(int index, BuildContext context) {
     case 0:
       return FloatingActionButton(
         onPressed: () {
-          showDialog(
+          showModalBottomSheet(
+            isScrollControlled: true,
             context: context,
-            builder: (context) => const UserRegistrationForm(),
+            builder: (context) => const NewUserScreen(),
           );
         },
         child: const Icon(Iconsax.user_add),

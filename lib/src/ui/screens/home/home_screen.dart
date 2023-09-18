@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:md_ponto_app/src/ui/screens/check_user_in_task/check_user_in_task_screen.dart';
+import 'package:md_ponto_app/src/ui/theme/theme.dart';
 import '../../components/componentes.dart';
 import 'package:md_ponto_app/src/ui/old_components/icon_text_button.dart';
 import 'package:md_ponto_app/src/ui/old_components/task_models.dart';
@@ -80,6 +82,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     //not scroll when keyboard is open
                     resizeToAvoidBottomInset: false,
                     appBar: CustomAppBar.withProfileInfo(
+                      userAdmin: userData[0].userType == 'user' ? false : true,
                       userPhoto: userData[0].profilePhoto,
                       userfirstName: userData[0].firstName,
                       userEmail: userData[0].email,
@@ -201,7 +204,31 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         itemBuilder: (context, index) {
                                           final task = tasksActive[index];
                                           return InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              showModalBottomSheet(
+                                                backgroundColor: lightTheme()
+                                                    .colorScheme
+                                                    .background,
+                                                isScrollControlled: true,
+                                                showDragHandle: true,
+                                                context: context,
+                                                builder: (context) =>
+                                                    CheckUserInTask(
+                                                  taskId: task.id,
+                                                  taskTitle: task.name,
+                                                  taskDisplayStartDate:
+                                                      task.displayStartDate,
+                                                  taskLocation: task.location,
+                                                  userId: userData[0].uid,
+                                                  animationController:
+                                                      AnimationController(
+                                                    vsync: this,
+                                                    duration: const Duration(
+                                                        milliseconds: 300),
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                             child: Padding(
                                               padding: index ==
                                                       tasksActive.length - 1
@@ -253,7 +280,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             context: context,
                             icon: Iconsax.note_favorite,
                             text: "Adicionar atividade",
-                            onPressed: () {},
+                            onPressed: () {
+                              //call CustomBottomSheet
+
+                              // showModalBottomSheet(
+                              //   context: context,
+                              //   isScrollControlled: true,
+                              //   shape: const RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.only(
+                              //       topLeft: Radius.circular(20),
+                              //       topRight: Radius.circular(20),
+                              //     ),
+                              //   ),
+                              //   builder: (context) =>   const CustomBottomSheet(),
+                              // );
+                            },
                           ).variant1(),
                         ],
                       ),
