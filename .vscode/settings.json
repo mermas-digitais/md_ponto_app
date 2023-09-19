@@ -5,5 +5,25 @@
     "Debouncer",
     "dotenv",
     "Geolocator"
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#928ae0",
+    "activityBar.background": "#928ae0",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#f2d0cd",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#928ae0",
+    "statusBar.background": "#6d62d5",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#928ae0",
+    "statusBarItem.remoteBackground": "#6d62d5",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#6d62d5",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#6d62d599",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "6D62D5"
 }

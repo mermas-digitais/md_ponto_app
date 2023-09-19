@@ -24,8 +24,11 @@ class ImageProfilePhoto extends StatelessWidget {
                 child: const CircularProgressIndicator(
                   color: Color.fromARGB(255, 221, 199, 248),
                 )),
-            errorWidget: (context, url, error) => Image.asset(
-              'lib/src/ui/assets/avatars/avatar/0.svg',
+            errorWidget: (context, url, error) => SvgPicture.asset(
+              alignment: Alignment.center,
+              fit: BoxFit.contain,
+              semanticsLabel: 'Avatar',
+              'lib/src/ui/assets/avatars/avatar0.svg',
             ),
             imageUrl: image.toString(),
             imageBuilder: (context, imageProvider) => Container(

@@ -36,6 +36,8 @@ class _PopSecure {
 
 class _NavigateTo {
   Future<dynamic>? splash() async => Get.toNamed(Routes.splash);
+  Future<dynamic>? wellcome() async => Get.toNamed(Routes.wellcome);
+
 
   Future<dynamic>? login() async => Get.toNamed(Routes.login);
 

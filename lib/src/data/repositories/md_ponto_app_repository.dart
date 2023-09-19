@@ -80,7 +80,7 @@ class PontoAppRepository {
     try {
       await dio.post('${dotenv.env['API_URL']}/createUser', data: data);
 
-      toastMessage('Usuário criado com sucesso!');
+      toastMessage(message: 'Usuário criado com sucesso!');
     } catch (e) {
       Future.error("Erro ao buscar dados: $e");
     }
@@ -95,7 +95,7 @@ class PontoAppRepository {
         result.data.map((item) => tasks.add(TaskModel.fromMap(item))).toList();
       }
     } catch (e) {
-      toastMessage('Erro ao buscar atividades: $e');
+      toastMessage(message: 'Erro ao buscar atividades: $e');
     }
     return tasks;
   }
@@ -173,9 +173,9 @@ class PontoAppRepository {
         data: {'userCoordinates': userCoordinates},
       );
 
-      toastMessage('Usuário adicionado com sucesso!');
+      toastMessage(message: 'Usuário adicionado com sucesso!');
     } catch (e) {
-      toastMessage("Erro ao adicionar usuário: $e");
+      toastMessage(message: "Erro ao adicionar usuário: $e");
     }
   }
 
@@ -224,7 +224,7 @@ class PontoAppRepository {
         }
       }
     } catch (e) {
-      toastMessage('Erro ao buscar atividades agendadas: $e');
+      toastMessage(message: 'Erro ao buscar atividades agendadas: $e');
     }
 
     return tasksScheduleds.toList();

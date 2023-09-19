@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:md_ponto_app/src/routes/routes.dart';
+import 'package:md_ponto_app/src/ui/theme/theme.dart';
 
 import '../../atmos/atmos.dart';
 
@@ -62,84 +63,94 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         preferredSize: const Size.fromHeight(90.0),
         child: Hero(
           tag: "$heroTag",
-          child: Padding(
-            padding:
-                const EdgeInsets.only(right: 20.0, left: 20.0, bottom: 10.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                //context / radius / avatar (0 to 9)
-                InkWell(
-                  customBorder: const CircleBorder(),
-                  overlayColor: MaterialStatePropertyAll(
-                      Theme.of(context).colorScheme.tertiary),
-                  child:
-                      ProfileCircleAvatar.profile(radius: 30, image: userPhoto),
-                  onTap: () {},
-                ),
+          child: Container(
+            color: lightTheme().colorScheme.primary,
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(right: 20.0, left: 20.0, bottom: 10.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  //context / radius / avatar (0 to 9)
+                  InkWell(
+                    customBorder: const CircleBorder(),
+                    overlayColor: MaterialStatePropertyAll(
+                        Theme.of(context).colorScheme.tertiary),
+                    child: ProfileCircleAvatar.profile(
+                        radius: 30, image: userPhoto),
+                    onTap: () {},
+                  ),
 
-                const SizedBox(width: 8.0),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Olá, $userfirstName ",
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        Text(
-                            userGroup == 'voluntario'
-                                ? 'Monitor voluntário'
-                                : 'Monitor bolsista',
-                            style: Theme.of(context).textTheme.titleMedium),
-                      ],
-                    ),
-                    // const SizedBox(height: 2.0),
-                    Text(userEmail,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: 12,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .background
-                                .withOpacity(0.8))),
-                  ],
-                ),
-
-                const Spacer(),
-                userAdmin!
-                    ? Row(
+                  const SizedBox(width: 8.0),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          IconButton(
-                            icon: const Icon(Iconsax.user_search),
-                            onPressed: () {
-                              AppNavigate.to.admin();
-                            },
+                          Text(
+                            "Olá, $userfirstName ",
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          const SizedBox(width: 8.0),
-                          IconButton(
-                            style: Theme.of(context).iconButtonTheme.style,
-                            icon: const Icon(
-                              Iconsax.logout_1,
-                            ),
-                            onPressed: () {},
-                          ),
+                          Text(
+                              userGroup == 'voluntario'
+                                  ? 'Monitor voluntário'
+                                  : 'Monitor bolsista',
+                              style: Theme.of(context).textTheme.titleMedium),
                         ],
-                      )
-                    : IconButton(
-                        style: Theme.of(context).iconButtonTheme.style,
-                        icon: const Icon(
-                          Iconsax.logout_1,
-                        ),
-                        onPressed: () {},
                       ),
-              ],
+                      // const SizedBox(height: 2.0),
+                      Text(userEmail,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 12,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .background
+                                      .withOpacity(0.8))),
+                    ],
+                  ),
+
+                  const Spacer(),
+                  userAdmin!
+                      ? Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Iconsax.user_search),
+                              onPressed: () {
+                                AppNavigate.to.admin();
+                              },
+                            ),
+                            const SizedBox(width: 8.0),
+                            IconButton(
+                              style: Theme.of(context).iconButtonTheme.style,
+                              icon: const Icon(
+                                Iconsax.logout_1,
+                              ),
+                              onPressed: () {
+                                AppNavigate.to.wellcome();
+                              },
+                            ),
+                          ],
+                        )
+                      : IconButton(
+                          style: Theme.of(context).iconButtonTheme.style,
+                          icon: const Icon(
+                            Iconsax.logout_1,
+                          ),
+                          onPressed: () {
+                            AppNavigate.to.wellcome();
+                          },
+                        ),
+                ],
+              ),
             ),
           ),
         ),
@@ -167,6 +178,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Hero(
           tag: "$heroTag",
           child: AppBar(
+            backgroundColor: lightTheme().colorScheme.primary,
             toolbarHeight: appBarHeight ?? 90.0,
             centerTitle: false,
             title: Text(

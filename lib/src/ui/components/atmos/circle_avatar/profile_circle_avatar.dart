@@ -27,10 +27,6 @@ class ProfileCircleAvatar extends StatelessWidget {
       key: key,
       radius: radius,
       image: image,
-      // decoration: BoxDecoration(
-      //     border:
-      //         Border.all(color: lightTheme().colorScheme.background, width: 4),
-      //     borderRadius: BorderRadius.circular(100)),
       child: CircleAvatar(
         radius: 36,
         backgroundColor: lightTheme().colorScheme.secondary.withOpacity(0.8),

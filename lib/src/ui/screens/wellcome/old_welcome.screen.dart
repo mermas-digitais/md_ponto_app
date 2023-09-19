@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:md_ponto_app/src/ui/components/atmos/buttons/buttons.dart';
 import 'package:md_ponto_app/src/ui/components/atmos/circle_image/wellcome_cicle_image.dart';
 import 'package:md_ponto_app/src/ui/components/organisms/scaffold/app_scaffold.dart';
-import 'package:md_ponto_app/src/ui/screens/login/login_screen.dart';
-
-class Welcome extends StatelessWidget {
-  const Welcome({super.key});
+import 'package:md_ponto_app/src/ui/screens/login/login.dart';
+class OldWelcome extends StatelessWidget {
+  const OldWelcome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class Welcome extends StatelessWidget {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Login(),
+                    builder: (context) => const LoginScreen(),
                   ), // Substitua SegundaRota() pela rota que deseja navegar
                 ),
                 icon: Icon(

@@ -130,7 +130,7 @@ class _MapViewState extends State<MapView> {
       taskLocation = LatLng(double.parse(widget.taskLocation.split(",")[0]),
           double.parse(widget.taskLocation.split(",")[1]));
     } else {
-      toastMessage('Localização da atividade inválida');
+      toastMessage(message: 'Localização da atividade inválida');
       AppNavigate.pop();
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:md_ponto_app/src/ui/theme/theme.dart';
 
 class CustomScaffold extends StatelessWidget {
   factory CustomScaffold({
@@ -115,8 +116,8 @@ class CustomScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: moveUpWhenKeyboardIsOpen ?? false,
+      backgroundColor: backgroundColor ?? lightTheme().colorScheme.primary,
       appBar: appBar,
-      backgroundColor: backgroundColor,
       body: body,
       floatingActionButton: floatingActionButton,
     );

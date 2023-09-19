@@ -3,16 +3,14 @@ import 'package:get/get.dart';
 import 'package:md_ponto_app/src/ui/components/components.dart';
 import 'package:md_ponto_app/src/utils/utils.dart';
 
-import '../../../routes/routes.dart';
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class OldLogin extends StatefulWidget {
+  const OldLogin({super.key});
 
   @override
-  LoginScreenState createState() => LoginScreenState();
+  OldLoginState createState() => OldLoginState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class OldLoginState extends State<OldLogin> {
   final formKey = GlobalKey<FormState>();
 
   RxBool isPasswordObscure = RxBool(true);
@@ -102,10 +100,7 @@ class LoginScreenState extends State<LoginScreen> {
                       width: 204,
                       child: CustomButton(context: context).active(
                         label: 'Entrar',
-                        onPressed: () =>
-                            formKey.currentState?.validate() ?? false
-                                ? AppNavigate.to.home()
-                                : null,
+                        onPressed: () => formKey.currentState?.validate(),
                       ),
                     ),
                   ],
