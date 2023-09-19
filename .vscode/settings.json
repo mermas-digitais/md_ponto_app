@@ -1,3 +1,9 @@
 {
-  "cSpell.words": ["autofocus", "debouncer", "Debouncer", "dotenv"]
+  "cSpell.words": [
+    "autofocus",
+    "debouncer",
+    "Debouncer",
+    "dotenv",
+    "Geolocator"
+  ]
 }

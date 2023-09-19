@@ -211,6 +211,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                     .background,
                                                 isScrollControlled: true,
                                                 showDragHandle: true,
+                                                enableDrag: false,
                                                 context: context,
                                                 builder: (context) =>
                                                     CheckUserInTask(

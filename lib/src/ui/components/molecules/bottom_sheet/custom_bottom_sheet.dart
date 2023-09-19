@@ -8,14 +8,15 @@ class CustomBottomSheet extends StatefulWidget {
   final void Function()? confirmFunction;
   final String? confirmText;
   final AnimationController? animationController;
-  const CustomBottomSheet(
-      {super.key,
-      required this.title,
-      required this.content,
-      required this.buttons,
-      this.confirmFunction,
-      this.confirmText,
-      required this.animationController});
+  const CustomBottomSheet({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.buttons,
+    this.confirmFunction,
+    this.confirmText,
+    this.animationController,
+  });
 
   @override
   State<CustomBottomSheet> createState() => _CustomBottomSheetState();
@@ -27,9 +28,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet>
   Widget build(BuildContext context) {
     return BottomSheet(
       onClosing: () {},
-      animationController: widget.animationController ??
-          AnimationController(
-              vsync: this, duration: const Duration(milliseconds: 300)),
+      enableDrag: false,
+      animationController: widget.animationController,
       builder: (BuildContext context) {
         return Container(
           decoration: const BoxDecoration(
@@ -68,12 +68,14 @@ class _CustomBottomSheetState extends State<CustomBottomSheet>
                                     CustomButton(
                                       context: context,
                                     ).inactive(
-                                        label: "Cancelar",
-                                        onPressed: Navigator.of(context).pop),
+                                      label: "Cancelar",
+                                      onPressed: Navigator.of(context).pop,
+                                    ),
                                     const SizedBox(width: 20),
                                     CustomButton(context: context).active(
-                                        label: widget.confirmText ?? "",
-                                        onPressed: widget.confirmFunction),
+                                      label: widget.confirmText ?? "",
+                                      onPressed: widget.confirmFunction,
+                                    ),
                                   ],
                                 ),
                               ],

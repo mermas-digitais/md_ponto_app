@@ -1,29 +1,47 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:md_ponto_app/src/routes/routes.dart';
 import 'package:md_ponto_app/src/ui/helpers/toast/toast_message.dart';
 
 class MapView extends StatefulWidget {
   const MapView({
     super.key,
     required this.taskLocation,
-    this.mapController,
+    required this.userPosition,
   });
-  final GoogleMapController? mapController;
+
   final String taskLocation;
+  final LatLng userPosition;
 
   @override
   State<MapView> createState() => _MapViewState();
 }
 
 class _MapViewState extends State<MapView> {
-  late GoogleMapController mapController;
-  LatLng currentPosition = const LatLng(0.0, 0.0);
   LatLng taskLocation = const LatLng(0.0, 0.0);
+
+  Completer<GoogleMapController> mapController = Completer();
+
+  ///create map controller
+  void onMapCreated(GoogleMapController controller) {
+    if (!mapController.isCompleted) {
+      mapController.complete(controller);
+    }
+  }
+
+  @override
+  void dispose() {
+    mapController = Completer();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getCurrentLocation(),
+      future: isValidTaskLocation(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SizedBox(
@@ -33,8 +51,8 @@ class _MapViewState extends State<MapView> {
           return GoogleMap(
             markers: <Marker>{
               Marker(
-                markerId: const MarkerId('currentPosition'),
-                position: currentPosition,
+                markerId: const MarkerId('widget.userPosition'),
+                position: widget.userPosition,
                 icon: BitmapDescriptor.defaultMarker,
                 infoWindow: const InfoWindow(
                   title: 'Sua localização',
@@ -58,16 +76,16 @@ class _MapViewState extends State<MapView> {
                 fillColor:
                     //if user is in the task location, fill the circle with green
                     (Geolocator.distanceBetween(
-                                currentPosition.latitude,
-                                currentPosition.longitude,
+                                widget.userPosition.latitude,
+                                widget.userPosition.longitude,
                                 taskLocation.latitude,
                                 taskLocation.longitude) <=
                             100)
                         ? Colors.green.withOpacity(0.5)
                         : Colors.red.withOpacity(0.5),
                 strokeColor: (Geolocator.distanceBetween(
-                            currentPosition.latitude,
-                            currentPosition.longitude,
+                            widget.userPosition.latitude,
+                            widget.userPosition.longitude,
                             taskLocation.latitude,
                             taskLocation.longitude) <=
                         100)
@@ -76,13 +94,13 @@ class _MapViewState extends State<MapView> {
                 strokeWidth: 1,
               ),
             },
-            onMapCreated: _onMapCreated,
+            onMapCreated: onMapCreated,
             initialCameraPosition:
                 //initial camera position show distance between user and task location
                 CameraPosition(
               target: LatLng(
-                  (currentPosition.latitude + taskLocation.latitude) / 2,
-                  (currentPosition.longitude + taskLocation.longitude) / 2),
+                  (widget.userPosition.latitude + taskLocation.latitude) / 2,
+                  (widget.userPosition.longitude + taskLocation.longitude) / 2),
               zoom: 16.0,
             ),
             myLocationEnabled: true,
@@ -99,45 +117,21 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-  _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+  // _onMapCreated(GoogleMapController controller) {
+  //   mapController = controller;
+  // }
 
-  Future<Position> getCurrentLocation() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      toastMessage('Por favor, ative a localização do seu dispositivo');
-      return Future.error('Por favor, ative a localização do seu dispositivo');
-    }
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.deniedForever) {
-      toastMessage(
-          'Permissão de localização negada - solicite permissão de localização');
-      return Future.error(
-          'Permissão de localização negada - solicite permissão de localização');
-    }
-    if (permission == LocationPermission.denied) {
-      toastMessage(
-          'Permissão de localização negada - solicite permissão de localização');
-      return Future.error(
-          'Permissão de localização negada - solicite permissão de localização');
+  Future isValidTaskLocation() async {
+    //if tasklocation contains numbers ",", "." , "-" and " ", then it's a valid location
+    bool taskLocationIsValid =
+        widget.taskLocation.contains(RegExp(r'[0-9,.-]'));
+
+    if (taskLocationIsValid) {
+      taskLocation = LatLng(double.parse(widget.taskLocation.split(",")[0]),
+          double.parse(widget.taskLocation.split(",")[1]));
     } else {
-      currentPosition = await Geolocator.getCurrentPosition()
-          .then((value) => LatLng(value.latitude, value.longitude));
-
-      //if tasklocation contains numbers ",", "." , "-" and " ", then it's a valid location
-      bool taskLocationIsValid =
-          widget.taskLocation.contains(RegExp(r'[0-9,.-]'));
-
-      if (taskLocationIsValid) {
-        taskLocation = LatLng(double.parse(widget.taskLocation.split(",")[0]),
-            double.parse(widget.taskLocation.split(",")[1]));
-      } else {
-        toastMessage('Localização da atividade inválida');
-        return Future.error('Localização da atividade inválida');
-      }
+      toastMessage('Localização da atividade inválida');
+      AppNavigate.pop();
     }
-
-    return await Geolocator.getCurrentPosition();
   }
 }

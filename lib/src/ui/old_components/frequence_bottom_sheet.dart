@@ -1,6 +1,7 @@
 //retornar um botto sheet para registrar a frequencia do usuario na task, esse bottom sheet precisa do uid do usuario de das informações da task
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:md_ponto_app/src/services/google_maps/map_view.dart';
@@ -91,8 +92,8 @@ class _FrequenceBottomSheetState extends State<FrequenceBottomSheet> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: MapView(
-                    taskLocation: widget.taskLocation,
-                  ),
+                      taskLocation: widget.taskLocation,
+                      userPosition: const LatLng(0, 0)),
                 ),
               ),
               const SizedBox(

@@ -136,8 +136,9 @@ class CustomInput extends StatelessWidget {
                   fontSize: 10, color: lightTheme().colorScheme.error)
               : Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 10, color: lightTheme().colorScheme.error),
-          hintStyle:
-              variant == true ? Theme.of(context).textTheme.bodyMedium : null,
+          hintStyle: variant == true
+              ? Theme.of(context).textTheme.titleMedium
+              : Theme.of(context).textTheme.bodyMedium,
           labelStyle: variant == true
               ? Theme.of(context).textTheme.bodyMedium
               : Theme.of(context).textTheme.bodyMedium,

@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:md_ponto_app/src/controllers/controllers.dart';
 import 'package:md_ponto_app/src/routes/routes.dart';
+import 'package:md_ponto_app/src/services/geolocation/get_current_position.dart';
 import 'package:md_ponto_app/src/ui/components/componentes.dart';
 
 import '../../../data/repositories/repositories.dart';
@@ -17,13 +18,13 @@ class CheckUserInTask extends StatefulWidget {
   final String taskLocation;
   final String taskId;
   final String userId;
-  final AnimationController animationController;
+  final AnimationController? animationController;
   const CheckUserInTask({
     super.key,
     required this.taskTitle,
     required this.taskDisplayStartDate,
     required this.taskLocation,
-    required this.animationController,
+    this.animationController,
     required this.taskId,
     required this.userId,
   });
@@ -36,10 +37,10 @@ class _CheckUserInTaskState extends State<CheckUserInTask> {
   late TasksController _taskController;
   late String userCoordinates;
 
-  getCurrentPosition() async {
-    await Geolocator.getCurrentPosition().then(
-      (value) => userCoordinates = "${value.latitude},${value.longitude}",
-    );
+  late LatLng userPosition;
+
+  Future setCurrentLocation() async {
+    userPosition = await UserPosition().getCurrentLocation();
   }
 
   @override
@@ -48,7 +49,7 @@ class _CheckUserInTaskState extends State<CheckUserInTask> {
         repository: PontoAppRepository(
       dio: Dio(),
     )));
-    getCurrentPosition();
+    setCurrentLocation();
     super.initState();
   }
 
@@ -125,6 +126,7 @@ class _CheckUserInTaskState extends State<CheckUserInTask> {
               borderRadius: BorderRadius.circular(12),
               child: MapView(
                 taskLocation: widget.taskLocation,
+                userPosition: userPosition,
               ),
             ),
           ),
