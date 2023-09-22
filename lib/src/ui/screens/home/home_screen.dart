@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:md_ponto_app/src/core/auth/auth.dart';
 import 'package:md_ponto_app/src/ui/screens/check_user_in_task/check_user_in_task_screen.dart';
 import 'package:md_ponto_app/src/ui/theme/theme.dart';
 import '../../components/componentes.dart';
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final List tasksActive;
   late final List tasksInactive;
   ValueNotifier expanded = ValueNotifier(false);
-  String uid = "BA9R1U4MPtabficgZEYFXFNOMD23";
+  String uid = AuthService().user!.uid;
 
   @override
   void initState() {
