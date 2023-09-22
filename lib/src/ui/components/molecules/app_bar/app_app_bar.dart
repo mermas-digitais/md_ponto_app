@@ -1,9 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:md_ponto_app/src/routes/routes.dart';
 import 'package:md_ponto_app/src/ui/theme/theme.dart';
 
+import '../../../../core/core.dart';
 import '../../atmos/atmos.dart';
+
+final AuthService _authService = AuthService();
+Future<void> signOut() async {
+  await _authService.signOut();
+  AppNavigate.to.wellcome();
+}
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -135,7 +143,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 Iconsax.logout_1,
                               ),
                               onPressed: () {
-                                AppNavigate.to.wellcome();
+                                signOut();
                               },
                             ),
                           ],
