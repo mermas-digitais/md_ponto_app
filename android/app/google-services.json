@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "209979604255",
+    "project_id": "md-ponto-app",
+    "storage_bucket": "md-ponto-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209979604255:android:a87b3633cd0be4f269c42a",
+        "android_client_info": {
+          "package_name": "com.example.md_ponto_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209979604255-eopeau7uggivb18ghk83kau0igk85a56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLGgmopJmVvBhP3-3MhtIMzxbJCAUDsaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209979604255-eopeau7uggivb18ghk83kau0igk85a56.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
