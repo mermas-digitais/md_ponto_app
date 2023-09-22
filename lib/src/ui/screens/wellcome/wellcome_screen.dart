@@ -5,10 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:md_ponto_app/src/routes/app_navigate.dart';
 import 'package:md_ponto_app/src/ui/theme/theme.dart';
-// import 'package:flutter_svg/svg.dart';
-// import 'package:md_ponto_app/src/ui/components/componentes.dart';
-
-// import '../screens.dart';
 
 class WellcomeScreen extends StatelessWidget {
   const WellcomeScreen({super.key});
@@ -37,7 +33,7 @@ class WellcomeScreen extends StatelessWidget {
             ),
           ),
 
-          // Container bottom_md
+          // Container Seja bem vindo
           Positioned(
             bottom: screenHeight * 0.46,
             width: screenWidth * 0.88,
@@ -74,7 +70,7 @@ class WellcomeScreen extends StatelessWidget {
                   //button with text and sufix icon arrow right icon. button has a background color (lightheme.primarycolor) and outlined color is lightheme.tertiary color
                   ElevatedButton.icon(
                     onPressed: () {
-                      AppNavigate.to.home();
+                      AppNavigate.to.login();
                     },
                     label: Text(
                       'Vamos começar',
@@ -113,7 +109,7 @@ class WellcomeScreen extends StatelessWidget {
             bottom: 0,
             left: 0,
             right: 0,
-            height: screenHeight / 2 - 60,
+            height: screenHeight / 2 - 86,
             child: SvgPicture.asset(
               'lib/src/ui/assets/images/bottom_md.svg',
               fit: BoxFit.fitWidth,
