@@ -67,6 +67,41 @@ class CustomInput extends StatelessWidget {
       onSaved: onSaved,
     ));
   }
+  //create a variante2 with no color inside the input
+  factory CustomInput.variant2({
+    Key? key,
+    required String label,
+    void Function(String)? onChanged,
+    String? Function(String?)? validator,
+    double? height,
+    double? width,
+    required TextInputType keyboardType,
+    bool? autoFocus,
+    TextEditingController? controller,
+    int? maxLines,
+    bool? variant = true,
+    Widget? iconButton,
+    bool? isObscureText,
+    void Function(String?)? onSaved,
+  }) {
+    return (CustomInput._(
+      key: key,
+      label: label,
+      keyboardType: keyboardType,
+      onChanged: onChanged,
+      autoFocus: autoFocus,
+      controller: controller,
+      width: width,
+      height: height,
+      maxLines: maxLines,
+      validator: validator,
+      variant: variant,
+      iconButton: iconButton,
+      isObscureText: isObscureText,
+      onSaved: onSaved,
+      filled: false,
+    ));
+  }
 
   const CustomInput._({
     Key? key,
@@ -83,6 +118,7 @@ class CustomInput extends StatelessWidget {
     this.iconButton,
     this.isObscureText,
     this.onSaved,
+    this.filled,
   });
 
   final String label;
@@ -97,6 +133,7 @@ class CustomInput extends StatelessWidget {
   final bool? variant;
   final Widget? iconButton;
   final bool? isObscureText;
+  final bool? filled;
   final void Function(String?)? onSaved;
 
   @override
@@ -142,7 +179,7 @@ class CustomInput extends StatelessWidget {
           labelStyle: variant == true
               ? Theme.of(context).textTheme.bodyMedium
               : Theme.of(context).textTheme.bodyMedium,
-          filled: true,
+          filled: filled ?? true,
           fillColor: variant == true
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.background,

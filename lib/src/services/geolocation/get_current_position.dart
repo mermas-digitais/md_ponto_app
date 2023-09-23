@@ -11,16 +11,19 @@ class UserPosition {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
     if (!serviceEnabled) {
-      toastMessage('Por favor, ative a localização do seu dispositivo');
+      toastMessage(
+          message: 'Por favor, ative a localização do seu dispositivo');
     }
 
     if (permission == LocationPermission.deniedForever) {
       toastMessage(
-          'Permissão de localização negada - solicite permissão de localização');
+          message:
+              'Permissão de localização negada - solicite permissão de localização');
     }
     if (permission == LocationPermission.denied) {
       toastMessage(
-          'Permissão de localização negada - solicite permissão de localização');
+          message:
+              'Permissão de localização negada - solicite permissão de localização');
     } else {
       usePosition = await Geolocator.getCurrentPosition()
           .then((value) => LatLng(value.latitude, value.longitude));

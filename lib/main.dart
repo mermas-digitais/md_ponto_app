@@ -3,18 +3,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:md_ponto_app/src/core/auth/check_login.dart';
+import 'package:md_ponto_app/src/core/core.dart';
 import 'package:md_ponto_app/src/routes/routes.dart';
-import 'package:md_ponto_app/src/ui/screens/home/home.dart';
+
 import 'src/ui/theme/theme.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
   await initializeDateFormatting('pt_BR', null);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      // statusBarColor: Color(0xFF6D62D5),
+      statusBarColor: Color(0xFF6D62D5),
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.dark,
       systemNavigationBarColor: Color(0xFFFFFFFF),
@@ -34,7 +40,7 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.splash,
       getPages: AppPages.routes,
       unknownRoute: AppPages.routes.first,
-      home: const HomePage(),
+      home: checkLogin(),
       locale: const Locale('pt', 'BR'),
       debugShowCheckedModeBanner: false,
     );

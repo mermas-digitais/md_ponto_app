@@ -37,7 +37,7 @@ class _CheckUserInTaskState extends State<CheckUserInTask> {
   late TasksController _taskController;
   late String userCoordinates;
 
-  late LatLng userPosition;
+  LatLng userPosition = const LatLng(0, 0);
 
   Future setCurrentLocation() async {
     userPosition = await UserPosition().getCurrentLocation();
@@ -45,92 +45,95 @@ class _CheckUserInTaskState extends State<CheckUserInTask> {
 
   @override
   void initState() {
+    super.initState();
     _taskController = Get.put(TasksController(
         repository: PontoAppRepository(
       dio: Dio(),
     )));
     setCurrentLocation();
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     //TODO: Criar função "util" para formatar data e inserir da tada das taks
     DateTime data = DateTime.now();
-    DateFormat formato = DateFormat("dd 'de' MMM, y - HH:mm", 'pt_BR');
+    DateFormat formato = DateFormat("dd 'de' MMMM, y - HH:mm", 'pt_BR');
     String dataFormatada = formato.format(data);
 
-    return CustomBottomSheet(
-      title: widget.taskTitle,
-      buttons: true,
-      confirmText: "Registrar",
-      confirmFunction: () async {
-        await _taskController.addUserToTask(
-          taskId: widget.taskId,
-          userId: widget.userId,
-          userCordinates: userCoordinates,
-        );
+    return FutureBuilder(
+      future: setCurrentLocation(),
+      builder: (context, snapshot) => CustomBottomSheet(
+        title: widget.taskTitle,
+        buttons: true,
+        confirmText: "Registrar",
+        confirmFunction: () async {
+          await _taskController.addUserToTask(
+            taskId: widget.taskId,
+            userId: widget.userId,
+            userCordinates: userCoordinates,
+          );
 
-        AppNavigate.pop();
-      },
-      animationController: widget.animationController,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                Iconsax.clock,
-                size: 14,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 4.0),
-              Text(
-                dataFormatada,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 14,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurfaceVariant
-                        .withOpacity(0.6)),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Sua localização atual',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontSize: 14,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurfaceVariant
-                    .withOpacity(0.6)),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: Theme.of(context)
-                    .colorScheme
-                    .surfaceVariant
-                    .withOpacity(0.3),
-              ),
-              color: Theme.of(context).colorScheme.surfaceVariant,
+          AppNavigate.pop();
+        },
+        animationController: widget.animationController,
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Iconsax.clock,
+                  size: 14,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 4.0),
+                Text(
+                  dataFormatada,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 14,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurfaceVariant
+                          .withOpacity(0.6)),
+                ),
+              ],
             ),
-            width: MediaQuery.of(context).size.width,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: MapView(
-                taskLocation: widget.taskLocation,
-                userPosition: userPosition,
+            const SizedBox(height: 16),
+            Text(
+              'Sua localização atual',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 14,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurfaceVariant
+                      .withOpacity(0.6)),
+            ),
+            const SizedBox(height: 8),
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .surfaceVariant
+                      .withOpacity(0.3),
+                ),
+                color: Theme.of(context).colorScheme.surfaceVariant,
+              ),
+              width: MediaQuery.of(context).size.width,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: MapView(
+                  taskLocation: widget.taskLocation,
+                  userPosition: userPosition,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
